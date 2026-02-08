@@ -1,0 +1,93 @@
+import { PrismaService } from '../../prisma/prisma.service';
+import { ProposalsRepository } from './proposals.repository';
+import { NetworkService } from '../network/network.service';
+import { CommissionsService } from '../commissions/commissions.service';
+import { JourneyService } from '../journey/journey.service';
+import { NotificationsService } from '../notifications/notifications.service';
+import { CreateProposalDto } from './dto/create-proposal.dto';
+import { ProposalStatus } from '@prisma/client';
+export declare class ProposalsService {
+    private prisma;
+    private repository;
+    private networkService;
+    private commissionsService;
+    private journeyService;
+    private notificationsService;
+    constructor(prisma: PrismaService, repository: ProposalsRepository, networkService: NetworkService, commissionsService: CommissionsService, journeyService: JourneyService, notificationsService: NotificationsService);
+    create(dto: CreateProposalDto): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        status: import(".prisma/client").$Enums.ProposalStatus;
+        idempotencyKey: string | null;
+        value: number;
+        approvedAt: Date | null;
+        approvedById: string | null;
+        rejectedAt: Date | null;
+        rejectionReason: string | null;
+        profileId: string;
+        productId: string;
+    }>;
+    approve(proposalId: string, adminUserId: string): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        status: import(".prisma/client").$Enums.ProposalStatus;
+        idempotencyKey: string | null;
+        value: number;
+        approvedAt: Date | null;
+        approvedById: string | null;
+        rejectedAt: Date | null;
+        rejectionReason: string | null;
+        profileId: string;
+        productId: string;
+    } | null>;
+    reject(proposalId: string, adminUserId: string, reason?: string): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        status: import(".prisma/client").$Enums.ProposalStatus;
+        idempotencyKey: string | null;
+        value: number;
+        approvedAt: Date | null;
+        approvedById: string | null;
+        rejectedAt: Date | null;
+        rejectionReason: string | null;
+        profileId: string;
+        productId: string;
+    } | null>;
+    findById(id: string): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        status: import(".prisma/client").$Enums.ProposalStatus;
+        idempotencyKey: string | null;
+        value: number;
+        approvedAt: Date | null;
+        approvedById: string | null;
+        rejectedAt: Date | null;
+        rejectionReason: string | null;
+        profileId: string;
+        productId: string;
+    }>;
+    findMany(page?: number, limit?: number, status?: ProposalStatus, profileId?: string): Promise<{
+        data: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            status: import(".prisma/client").$Enums.ProposalStatus;
+            idempotencyKey: string | null;
+            value: number;
+            approvedAt: Date | null;
+            approvedById: string | null;
+            rejectedAt: Date | null;
+            rejectionReason: string | null;
+            profileId: string;
+            productId: string;
+        }[];
+        total: number;
+    }>;
+    getProfileUserIdByProposalId(proposalId: string): Promise<string | null>;
+    resolveProfileIdForUser(userId: string, profileIdQuery?: string): Promise<string | undefined>;
+    assertOwnership(profileUserId: string, currentUserId: string, isAdmin: boolean): void;
+}

@@ -1,0 +1,250 @@
+// United Club - Schema Prisma
+// Banco: MongoDB Atlas
+// Fintech-level: comissões, pagamentos, rede, jornada
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Seed: npm run prisma:seed
+// Sincronizar schema: npx prisma db push
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// ============ ENUMS ============
+enum Role {
+  admin
+  affiliate
+}
+
+enum ProposalStatus {
+  pending
+  approved
+  rejected
+}
+
+enum CommissionStatus {
+  pending   // disponível para saque
+  reserved  // em processamento de pagamento
+  paid      // pago
+}
+
+enum PaymentStatus {
+  pending
+  processing
+  completed
+  failed
+  cancelled
+}
+
+enum PaymentType {
+  withdrawal   // saque normal
+  advance      // antecipação (taxa 5%)
+}
+
+enum NotificationType {
+  proposal_approved
+  proposal_rejected
+  commission_available
+  payment_processed
+  level_unlocked
+  new_network_connection
+}
+
+// ============ USUÁRIOS E PERFIS ============
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  role      Role     @default(affiliate)
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  profile       Profile?
+  commissions   Commission[]
+  payments      Payment[]
+  networkAsReferrer   AffiliateNetwork[] @relation("Referrer")
+  networkAsAffiliate  AffiliateNetwork[]  @relation("Affiliate")
+  progress      AffiliateProgress?
+  notifications Notification[]
+  auditLogs     AuditLog[]
+}
+
+model Profile {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @unique @map("user_id") @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName   String   @map("full_name")
+  document   String?  @unique // CPF/CNPJ
+  phone      String?
+  avatarUrl  String?  @map("avatar_url") // S3
+  bankCode   String?  @map("bank_code")
+  bankAgency String?  @map("bank_agency")
+  bankAccount String? @map("bank_account")
+  pixKey     String?  @map("pix_key")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  proposals Proposal[]
+}
+
+// ============ PRODUTOS ============
+model Product {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  slug        String   @unique
+  description String?
+  price       Float    // MongoDB: Float (Decimal não suportado)
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  proposals Proposal[]
+}
+
+// ============ PROPOSTAS (VENDAS) ============
+model Proposal {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  idempotencyKey String?       @unique @map("idempotency_key") // anti-duplicação
+  profileId      String        @map("profile_id") @db.ObjectId
+  profile        Profile       @relation(fields: [profileId], references: [id], onDelete: Restrict)
+  productId      String        @map("product_id") @db.ObjectId
+  product        Product      @relation(fields: [productId], references: [id], onDelete: Restrict)
+  value          Float        // valor da venda (MongoDB: Float)
+  status         ProposalStatus @default(pending)
+  approvedAt     DateTime?    @map("approved_at")
+  approvedById   String?       @map("approved_by_id") @db.ObjectId
+  rejectedAt     DateTime?    @map("rejected_at")
+  rejectionReason String?      @map("rejection_reason")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  commissions Commission[]
+}
+
+// ============ REDE DE AFILIADOS (QUEM INDICOU QUEM) ============
+model AffiliateNetwork {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  affiliateId String   @map("affiliate_id") @db.ObjectId  // afiliado (filho)
+  affiliate   User     @relation("Affiliate", fields: [affiliateId], references: [id], onDelete: Cascade)
+  referrerId  String   @map("referrer_id") @db.ObjectId   // quem indicou (pai)
+  referrer    User     @relation("Referrer", fields: [referrerId], references: [id], onDelete: Cascade)
+  level       Int      // 1 = direto, 2 = indicado do indicado, etc.
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@unique([affiliateId, referrerId])
+  @@index([referrerId, level])
+}
+
+// ============ COMISSÕES MULTINÍVEL ============
+model Commission {
+  id         String          @id @default(auto()) @map("_id") @db.ObjectId
+  proposalId String          @map("proposal_id") @db.ObjectId
+  proposal   Proposal        @relation(fields: [proposalId], references: [id], onDelete: Restrict)
+  userId     String          @map("user_id") @db.ObjectId // afiliado que recebe
+  user       User            @relation(fields: [userId], references: [id], onDelete: Restrict)
+  level      Int             // 1 = 5%, 2 = 3%, 3 = 1%
+  percentage Float
+  amount     Float
+  status     CommissionStatus @default(pending)
+  paidAt     DateTime?       @map("paid_at")
+  createdAt  DateTime        @default(now()) @map("created_at")
+
+  paymentCommissions PaymentCommission[]
+
+  @@index([userId, status])
+  @@index([proposalId])
+}
+
+// ============ PAGAMENTOS ============
+model Payment {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String        @map("user_id") @db.ObjectId
+  user          User          @relation(fields: [userId], references: [id], onDelete: Restrict)
+  type          PaymentType
+  grossAmount   Float         @map("gross_amount")
+  feeAmount     Float         @default(0) @map("fee_amount") // taxa antecipação 5%
+  netAmount     Float         @map("net_amount")
+  status        PaymentStatus @default(pending)
+  processedAt   DateTime?     @map("processed_at")
+  processedById String?       @map("processed_by_id") @db.ObjectId
+  externalId    String?       @map("external_id") // ID no gateway
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  paymentCommissions PaymentCommission[]
+}
+
+// N:N Pagamento <-> Comissões (quais comissões foram pagas neste pagamento)
+model PaymentCommission {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  paymentId    String    @map("payment_id") @db.ObjectId
+  payment      Payment   @relation(fields: [paymentId], references: [id], onDelete: Restrict)
+  commissionId String    @map("commission_id") @db.ObjectId
+  commission   Commission @relation(fields: [commissionId], references: [id], onDelete: Restrict)
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  @@unique([paymentId, commissionId])
+  @@index([commissionId])
+}
+
+// ============ JORNADA DE NÍVEIS ============
+model JourneyLevel {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String   // Aprendiz, Executor, Alquimista...
+  slug     String   @unique
+  minSales Float    @map("min_sales") // meta em R$
+  order    Int      // ordem do nível
+  createdAt DateTime @default(now()) @map("created_at")
+
+  progress AffiliateProgress[]
+}
+
+model AffiliateProgress {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String        @unique @map("user_id") @db.ObjectId
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currentLevelId String?       @map("current_level_id") @db.ObjectId
+  currentLevel   JourneyLevel? @relation(fields: [currentLevelId], references: [id], onDelete: SetNull)
+  totalSales     Float         @default(0) @map("total_sales")
+  lastLevelUpAt DateTime?     @map("last_level_up_at")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  @@index([totalSales])
+}
+
+// ============ NOTIFICAÇÕES ============
+model Notification {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String           @map("user_id") @db.ObjectId
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  body      String?
+  readAt    DateTime?        @map("read_at")
+  metadata  Json?            // payload extra (proposalId, commissionId, etc.)
+  createdAt DateTime         @default(now()) @map("created_at")
+
+  @@index([userId, readAt])
+}
+
+// ============ AUDITORIA (ANTI-FRAUDE) ============
+model AuditLog {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String?  @map("user_id") @db.ObjectId
+  user     User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action   String   // proposal.approved, commission.paid, etc.
+  entity   String   // proposal, commission, payment
+  entityId String   @map("entity_id")
+  payload  Json?    // antes/depois
+  ip       String?
+  userAgent String?  @map("user_agent")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([entity, entityId])
+  @@index([userId, createdAt])
+}

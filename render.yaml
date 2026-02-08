@@ -1,0 +1,17 @@
+# Render Blueprint - United Club Backend
+# https://docs.render.com/blueprint-spec
+
+services:
+  - type: web
+    name: united-club-api
+    runtime: node
+
+    # Build: instala deps, gera Prisma Client, compila NestJS
+    buildCommand: npm install --legacy-peer-deps && npx prisma generate && npm run build
+
+    # Start: roda o build de produção
+    startCommand: npm run start:prod
+
+    envVars:
+      - key: NODE_ENV
+        value: production

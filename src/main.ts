@@ -1,0 +1,47 @@
+import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import helmet from 'helmet';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  const config = app.get(ConfigService);
+
+  app.use(
+    helmet({
+      contentSecurityPolicy: process.env.NODE_ENV === 'production',
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+    }),
+  );
+
+  app.enableCors({
+    origin: config.get<string>('CORS_ORIGIN', '*').split(','),
+    credentials: true,
+  });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
+    }),
+  );
+
+  const swagger = new DocumentBuilder()
+    .setTitle('United Club API')
+    .setDescription('Plataforma de Afiliados Gamificada - Fintech')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, swagger);
+  SwaggerModule.setup('api/docs', app, document);
+
+  const port = config.get<number>('PORT', 3000);
+  await app.listen(port, '0.0.0.0');
+  console.log(`United Club API: http://0.0.0.0:${port}`);
+  console.log(`Swagger: http://localhost:${port}/api/docs`);
+}
+bootstrap();
