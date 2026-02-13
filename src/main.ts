@@ -39,9 +39,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swagger);
   SwaggerModule.setup('api/docs', app, document);
 
-  const port = config.get<number>('PORT', 3000);
+  const port = Number(process.env.PORT) || config.get<number>('PORT', 3000);
   await app.listen(port, '0.0.0.0');
-  console.log(`United Club API: http://0.0.0.0:${port}`);
-  console.log(`Swagger: http://localhost:${port}/api/docs`);
+  console.log(`United Club API listening on port ${port}`);
+  console.log(`Swagger: /api/docs`);
 }
 bootstrap();

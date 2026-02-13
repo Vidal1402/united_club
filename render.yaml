@@ -9,8 +9,8 @@ services:
     # Build: instala deps, gera Prisma Client, compila NestJS
     buildCommand: npm install --legacy-peer-deps && npm run prisma:generate && npm run build
 
-    # Start: roda o build de produção
-    startCommand: npm run start:prod
+    # Start: build + start (garante dist/ no Render)
+    startCommand: npm run build && node dist/main.js
 
     envVars:
       - key: NODE_ENV
