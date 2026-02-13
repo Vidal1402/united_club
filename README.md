@@ -53,7 +53,78 @@ npm run start:dev
 - `JWT_SECRET` / `JWT_EXPIRES_IN` – Access token
 - `JWT_REFRESH_SECRET` / `JWT_REFRESH_EXPIRES_IN` – Refresh token
 - `PORT` (opcional, default 3000; no Render é definido automaticamente)
-- `CORS_ORIGIN` – Origens permitidas (separadas por vírgula)
+- `CORS_ORIGIN` – Origens permitidas para o frontend (separadas por vírgula)
+
+### Configuração com o frontend
+
+Para o frontend (React, Next.js, Vite, etc.) conseguir chamar esta API sem erro de CORS e em qualquer ambiente, siga os passos abaixo.
+
+#### 1. Backend – CORS
+
+No **backend**, defina de onde o frontend pode acessar a API:
+
+- **Desenvolvimento local:** no `.env` do backend:
+  ```env
+  CORS_ORIGIN=http://localhost:5173,http://localhost:3000
+  ```
+  (Ajuste as portas: 5173 é Vite, 3000 é comum em React/Next.)
+
+- **Produção (ex.: front no Vercel, backend no Render):** no **Render** → seu serviço → **Environment**:
+  ```env
+  CORS_ORIGIN=https://seu-app.vercel.app,https://www.seudominio.com
+  ```
+  Várias origens: separe por vírgula, **sem espaço**.
+
+Se não definir `CORS_ORIGIN`, o backend aceita qualquer origem (`*`). Em produção é melhor restringir às URLs do seu front.
+
+#### 2. Frontend – URL da API
+
+No **frontend**, configure a URL base da API em variável de ambiente, para mudar fácil entre dev e prod.
+
+| Stack        | Arquivo        | Variável (exemplo)     | Uso                          |
+|-------------|----------------|------------------------|-----------------------------|
+| Vite        | `.env` / `.env.production` | `VITE_API_URL`        | `import.meta.env.VITE_API_URL` |
+| Create React App | `.env` / `.env.production` | `REACT_APP_API_URL` | `process.env.REACT_APP_API_URL` |
+| Next.js     | `.env.local` / `.env.production` | `NEXT_PUBLIC_API_URL` | `process.env.NEXT_PUBLIC_API_URL` |
+
+**Exemplo – desenvolvimento (front e back locais):**
+```env
+# Vite
+VITE_API_URL=http://localhost:3000
+
+# Next.js
+NEXT_PUBLIC_API_URL=http://localhost:3000
+```
+
+**Exemplo – produção (backend no Render):**
+```env
+VITE_API_URL=https://united-club-api.onrender.com
+# ou
+NEXT_PUBLIC_API_URL=https://united-club-api.onrender.com
+```
+
+No código do front, use essa variável como base das chamadas, por exemplo:
+- `fetch(\`${import.meta.env.VITE_API_URL}/auth/login\`, { ... })`
+- ou um client axios: `baseURL: process.env.NEXT_PUBLIC_API_URL`
+
+#### 3. Autenticação (JWT)
+
+- **Login:** `POST /auth/login` com body `{ "email", "password" }`. A resposta traz `accessToken` e `refreshToken`.
+- **Rotas protegidas:** envie o token no header:
+  ```http
+  Authorization: Bearer <accessToken>
+  ```
+- **Renovar token:** quando o access expirar, chame `POST /auth/refresh` com body `{ "refreshToken": "..." }` e use o novo `accessToken` retornado.
+
+O front deve guardar os tokens (ex.: em memória + refresh no `localStorage` ou em cookie httpOnly, conforme sua estratégia de segurança).
+
+#### 4. Resumo rápido
+
+| Onde      | O que configurar |
+|----------|-------------------|
+| Backend (.env ou Render) | `CORS_ORIGIN` = URL(s) do frontend (separadas por vírgula) |
+| Frontend (.env) | `VITE_API_URL` ou `NEXT_PUBLIC_API_URL` = URL do backend (ex.: `http://localhost:3000` ou `https://united-club-api.onrender.com`) |
+| Frontend (código) | Usar essa URL como base das requisições e enviar `Authorization: Bearer <accessToken>` nas rotas protegidas |
 
 ### Deploy no Render
 
