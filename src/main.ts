@@ -44,8 +44,13 @@ async function bootstrap() {
     console.warn('Swagger não carregado (API segue funcionando):', (e as Error).message);
   }
 
-  const port = Number(process.env.PORT) || config.get<number>('PORT', 3000);
+  // Render injeta PORT; obrigatório usar para detectar a porta
+  const port = parseInt(process.env.PORT ?? '3000', 10);
   await app.listen(port, '0.0.0.0');
   console.log(`United Club API listening on port ${port}`);
 }
-bootstrap();
+
+bootstrap().catch((err) => {
+  console.error('Falha ao subir a API:', err);
+  process.exit(1);
+});
