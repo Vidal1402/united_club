@@ -4,11 +4,31 @@ import { ConfigService } from '@nestjs/config';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
+import type { Request, Response, NextFunction } from 'express';
+
+function corsMiddleware(req: Request, res: Response, next: NextFunction) {
+  const raw = process.env.CORS_ORIGIN ?? '*';
+  const origins = raw.split(',').map((o) => o.trim()).filter(Boolean);
+  const allowAny = origins.length === 0 || origins.every((o) => o === '*');
+  const requestOrigin = req.headers.origin;
+  const origin = allowAny ? requestOrigin : (requestOrigin && origins.includes(requestOrigin) ? requestOrigin : undefined);
+  if (origin) res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,Accept');
+  if (req.method === 'OPTIONS') {
+    res.status(204).end();
+    return;
+  }
+  next();
+}
 
 async function bootstrap() {
   console.log('[Render] Bootstrap iniciando... PORT=', process.env.PORT);
 
   const app = await NestFactory.create(AppModule);
+  app.use(corsMiddleware);
+
   const config = app.get(ConfigService);
 
   app.use(
@@ -23,7 +43,7 @@ async function bootstrap() {
   const allowOrigin =
     origins.length && !origins.every((o) => o === '*')
       ? origins
-      : true; // true = reflete a origem do request (permite qualquer quando não há lista)
+      : true;
   app.enableCors({
     origin: allowOrigin,
     credentials: true,

@@ -9,9 +9,27 @@ const config_1 = require("@nestjs/config");
 const swagger_1 = require("@nestjs/swagger");
 const helmet_1 = __importDefault(require("helmet"));
 const app_module_1 = require("./app.module");
+function corsMiddleware(req, res, next) {
+    const raw = process.env.CORS_ORIGIN ?? '*';
+    const origins = raw.split(',').map((o) => o.trim()).filter(Boolean);
+    const allowAny = origins.length === 0 || origins.every((o) => o === '*');
+    const requestOrigin = req.headers.origin;
+    const origin = allowAny ? requestOrigin : (requestOrigin && origins.includes(requestOrigin) ? requestOrigin : undefined);
+    if (origin)
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,Accept');
+    if (req.method === 'OPTIONS') {
+        res.status(204).end();
+        return;
+    }
+    next();
+}
 async function bootstrap() {
     console.log('[Render] Bootstrap iniciando... PORT=', process.env.PORT);
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    app.use(corsMiddleware);
     const config = app.get(config_1.ConfigService);
     app.use((0, helmet_1.default)({
         contentSecurityPolicy: process.env.NODE_ENV === 'production',
