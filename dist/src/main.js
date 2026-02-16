@@ -10,15 +10,23 @@ const swagger_1 = require("@nestjs/swagger");
 const helmet_1 = __importDefault(require("helmet"));
 const app_module_1 = require("./app.module");
 async function bootstrap() {
+    console.log('[Render] Bootstrap iniciando... PORT=', process.env.PORT);
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const config = app.get(config_1.ConfigService);
     app.use((0, helmet_1.default)({
         contentSecurityPolicy: process.env.NODE_ENV === 'production',
         crossOriginResourcePolicy: { policy: 'cross-origin' },
     }));
+    const corsOrigin = config.get('CORS_ORIGIN', '*');
+    const origins = corsOrigin.split(',').map((o) => o.trim()).filter(Boolean);
+    const allowOrigin = origins.length && !origins.every((o) => o === '*')
+        ? origins
+        : true;
     app.enableCors({
-        origin: config.get('CORS_ORIGIN', '*').split(','),
+        origin: allowOrigin,
         credentials: true,
+        methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
     });
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true,
@@ -34,7 +42,11 @@ async function bootstrap() {
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, swagger);
     swagger_1.SwaggerModule.setup('api/docs', app, document);
-    const port = parseInt(process.env.PORT ?? '3000', 10);
+    const port = Number(process.env.PORT) || 10000;
+    if (!Number.isInteger(port) || port < 1) {
+        throw new Error(`PORT inválido: ${process.env.PORT}`);
+    }
+    console.log('[Render] Abrindo porta', port, 'em 0.0.0.0...');
     await app.listen(port, '0.0.0.0');
     console.log(`United Club API listening on port ${port}`);
     console.log(`Swagger: /api/docs`);

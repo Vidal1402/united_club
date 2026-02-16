@@ -24,8 +24,20 @@ let UsersService = class UsersService {
         }
         return this.repository.create({
             email: data.email.toLowerCase(),
+            passwordHash: data.passwordHash,
             role: data.role ?? 'affiliate',
         });
+    }
+    async createForRegister(data) {
+        const existing = await this.repository.findByEmail(data.email);
+        if (existing) {
+            throw new common_1.ConflictException('E-mail já cadastrado');
+        }
+        return this.repository.createUserWithProfile({
+            email: data.email,
+            passwordHash: data.passwordHash,
+            role: 'affiliate',
+        }, { fullName: data.fullName, phone: data.phone });
     }
     async findById(id) {
         return this.repository.findById(id);

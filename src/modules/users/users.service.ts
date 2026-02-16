@@ -1,6 +1,6 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
-import { User, Role } from '@prisma/client';
+import { User, Profile, Role } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -8,6 +8,7 @@ export class UsersService {
 
   async create(data: {
     email: string;
+    passwordHash: string;
     role?: Role;
   }): Promise<User> {
     const existing = await this.repository.findByEmail(data.email);
@@ -16,8 +17,29 @@ export class UsersService {
     }
     return this.repository.create({
       email: data.email.toLowerCase(),
+      passwordHash: data.passwordHash,
       role: data.role ?? 'affiliate',
     });
+  }
+
+  async createForRegister(data: {
+    email: string;
+    passwordHash: string;
+    fullName: string;
+    phone?: string;
+  }): Promise<User & { profile: Profile | null }> {
+    const existing = await this.repository.findByEmail(data.email);
+    if (existing) {
+      throw new ConflictException('E-mail já cadastrado');
+    }
+    return this.repository.createUserWithProfile(
+      {
+        email: data.email,
+        passwordHash: data.passwordHash,
+        role: 'affiliate',
+      },
+      { fullName: data.fullName, phone: data.phone },
+    );
   }
 
   async findById(id: string): Promise<User | null> {

@@ -31,10 +31,15 @@ let UsersController = class UsersController {
             limit: limit ? parseInt(limit, 10) : undefined,
             role,
         });
-        return { data: result.data, meta: { total: result.total } };
+        const data = result.data.map(({ passwordHash: _, ...user }) => user);
+        return { data, meta: { total: result.total } };
     }
     async findOne(id) {
-        return this.usersService.findById(id);
+        const user = await this.usersService.findById(id);
+        if (!user)
+            return null;
+        const { passwordHash: _, ...rest } = user;
+        return rest;
     }
 };
 exports.UsersController = UsersController;

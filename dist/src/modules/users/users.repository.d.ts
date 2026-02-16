@@ -1,9 +1,19 @@
 import { PrismaService } from '../../prisma/prisma.service';
-import { User, Prisma } from '@prisma/client';
+import { User, Profile, Prisma } from '@prisma/client';
 export declare class UsersRepository {
     private prisma;
     constructor(prisma: PrismaService);
     create(data: Prisma.UserCreateInput): Promise<User>;
+    createUserWithProfile(userData: {
+        email: string;
+        passwordHash: string;
+        role?: 'admin' | 'affiliate';
+    }, profileData: {
+        fullName: string;
+        phone?: string;
+    }): Promise<User & {
+        profile: Profile | null;
+    }>;
     findById(id: string): Promise<User | null>;
     findByEmail(email: string): Promise<User | null>;
     findMany(params: {

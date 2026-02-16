@@ -18,9 +18,17 @@ async function bootstrap() {
     }),
   );
 
+  const corsOrigin = config.get<string>('CORS_ORIGIN', '*');
+  const origins = corsOrigin.split(',').map((o) => o.trim()).filter(Boolean);
+  const allowOrigin =
+    origins.length && !origins.every((o) => o === '*')
+      ? origins
+      : true; // true = reflete a origem do request (permite qualquer quando não há lista)
   app.enableCors({
-    origin: config.get<string>('CORS_ORIGIN', '*').split(','),
+    origin: allowOrigin,
     credentials: true,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   });
 
   app.useGlobalPipes(

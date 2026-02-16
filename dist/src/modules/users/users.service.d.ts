@@ -1,12 +1,21 @@
 import { UsersRepository } from './users.repository';
-import { User, Role } from '@prisma/client';
+import { User, Profile, Role } from '@prisma/client';
 export declare class UsersService {
     private repository;
     constructor(repository: UsersRepository);
     create(data: {
         email: string;
+        passwordHash: string;
         role?: Role;
     }): Promise<User>;
+    createForRegister(data: {
+        email: string;
+        passwordHash: string;
+        fullName: string;
+        phone?: string;
+    }): Promise<User & {
+        profile: Profile | null;
+    }>;
     findById(id: string): Promise<User | null>;
     findByEmail(email: string): Promise<User | null>;
     findMany(params: {
@@ -18,6 +27,7 @@ export declare class UsersService {
             id: string;
             createdAt: Date;
             email: string;
+            passwordHash: string | null;
             role: import(".prisma/client").$Enums.Role;
             isActive: boolean;
             updatedAt: Date;

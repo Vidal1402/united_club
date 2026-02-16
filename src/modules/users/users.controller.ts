@@ -27,13 +27,17 @@ export class UsersController {
       limit: limit ? parseInt(limit, 10) : undefined,
       role,
     });
-    return { data: result.data, meta: { total: result.total } };
+    const data = result.data.map(({ passwordHash: _, ...user }) => user);
+    return { data, meta: { total: result.total } };
   }
 
   @Get(':id')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Buscar usuário por ID' })
   async findOne(@Param('id') id: string) {
-    return this.usersService.findById(id);
+    const user = await this.usersService.findById(id);
+    if (!user) return null;
+    const { passwordHash: _, ...rest } = user;
+    return rest;
   }
 }

@@ -1,13 +1,20 @@
+import * as bcrypt from 'bcrypt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
 import type { JwtPayload } from '../../common/types/auth.types';
 
+const SALT_ROUNDS = 10;
+
 export interface TokenPair {
   accessToken: string;
   refreshToken: string;
   expiresIn: number;
+}
+
+export interface RegisterResult extends TokenPair {
+  user: { id: string; email: string; role: string; fullName: string };
 }
 
 @Injectable()
@@ -18,10 +25,13 @@ export class AuthService {
     private config: ConfigService,
   ) {}
 
-  async validateUser(email: string, _password: string): Promise<{ id: string; email: string; role: string } | null> {
+  async validateUser(email: string, password: string): Promise<{ id: string; email: string; role: string } | null> {
     const user = await this.usersService.findByEmail(email);
     if (!user || !user.isActive) return null;
-    // Em produção: comparar hash da senha (bcrypt).
+    const hash = (user as { passwordHash?: string | null }).passwordHash;
+    if (!hash) return null;
+    const ok = await bcrypt.compare(password, hash);
+    if (!ok) return null;
     return { id: user.id, email: user.email, role: user.role };
   }
 
@@ -31,6 +41,36 @@ export class AuthService {
       throw new UnauthorizedException('Credenciais inválidas');
     }
     return this.generateTokens(user);
+  }
+
+  async register(
+    email: string,
+    password: string,
+    fullName: string,
+    phone?: string,
+  ): Promise<RegisterResult> {
+    const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+    const user = await this.usersService.createForRegister({
+      email,
+      passwordHash,
+      fullName,
+      phone,
+    });
+    const profile = user.profile;
+    const tokens = this.generateTokens({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    });
+    return {
+      ...tokens,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        fullName: profile?.fullName ?? fullName,
+      },
+    };
   }
 
   async refresh(refreshToken: string): Promise<TokenPair> {

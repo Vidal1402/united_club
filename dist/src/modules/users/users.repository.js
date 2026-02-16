@@ -20,6 +20,28 @@ let UsersRepository = class UsersRepository {
     async create(data) {
         return this.prisma.user.create({ data });
     }
+    async createUserWithProfile(userData, profileData) {
+        return this.prisma.$transaction(async (tx) => {
+            const user = await tx.user.create({
+                data: {
+                    email: userData.email.toLowerCase(),
+                    passwordHash: userData.passwordHash,
+                    role: userData.role ?? 'affiliate',
+                },
+            });
+            await tx.profile.create({
+                data: {
+                    userId: user.id,
+                    fullName: profileData.fullName,
+                    phone: profileData.phone,
+                },
+            });
+            return tx.user.findUniqueOrThrow({
+                where: { id: user.id },
+                include: { profile: true },
+            });
+        });
+    }
     async findById(id) {
         return this.prisma.user.findUnique({
             where: { id },

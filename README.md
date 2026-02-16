@@ -75,7 +75,7 @@ No **backend**, defina de onde o frontend pode acessar a API:
   ```
   Várias origens: separe por vírgula, **sem espaço**.
 
-Se não definir `CORS_ORIGIN`, o backend aceita qualquer origem (`*`). Em produção é melhor restringir às URLs do seu front.
+Se o front estiver em outro domínio (ex.: **https://unitedclub.lovable.app**), defina no Render → Environment: `CORS_ORIGIN=https://unitedclub.lovable.app`. Sem isso, o browser bloqueia as requisições (erro de CORS).
 
 #### 2. Frontend – URL da API
 
@@ -110,6 +110,7 @@ No código do front, use essa variável como base das chamadas, por exemplo:
 #### 3. Autenticação (JWT)
 
 - **Login:** `POST /auth/login` com body `{ "email", "password" }`. A resposta traz `accessToken` e `refreshToken`.
+- **Registro (solicitar acesso):** `POST /auth/register` com body `{ "email", "password", "fullName", "phone" }` (público). Cria usuário afiliado com perfil e retorna os mesmos tokens + dados do usuário.
 - **Rotas protegidas:** envie o token no header:
   ```http
   Authorization: Bearer <accessToken>
@@ -141,7 +142,7 @@ O front deve guardar os tokens (ex.: em memória + refresh no `localStorage` ou 
    - `DATABASE_URL` – URL do MongoDB Atlas (com nome do banco e senha codificada)
    - `JWT_SECRET` – Chave forte (mín. 32 caracteres)
    - `JWT_REFRESH_SECRET` – Outra chave forte
-   - `CORS_ORIGIN` – (opcional) URL do frontend, ex.: `https://seu-app.vercel.app`
+   - **`CORS_ORIGIN`** – **Obrigatório** se o front estiver em outro domínio (ex.: Lovable). Ex.: `https://unitedclub.lovable.app` (várias origens: separar por vírgula, sem espaço)
    - `NODE_ENV` – (opcional) `production` (já está no Blueprint)
 
 5. **MongoDB Atlas** – Em **Network Access**, permita acesso de qualquer IP (`0.0.0.0/0`) para o Render conseguir conectar.
@@ -161,25 +162,442 @@ O front deve guardar os tokens (ex.: em memória + refresh no `localStorage` ou 
 3. **Solicitar saque/antecipação** – `POST /payments/request` (body: amount, type: withdrawal | advance). Antecipação: taxa 5%.
 4. **Admin marca pagamento como pago** – `POST /payments/:id/mark-paid` (body opcional: externalId). Atualiza status das comissões para `paid` e dispara notificação.
 
-### Endpoints principais
+### Referência da API para integração com o frontend
 
-| Recurso        | Método | Descrição                    |
-|----------------|--------|------------------------------|
-| /auth/login    | POST   | Login (email, password)      |
-| /auth/refresh  | POST   | Renovar access token         |
-| /users         | GET    | Listar usuários (admin)      |
-| /profiles/me   | GET    | Meu perfil                   |
-| /products      | GET    | Listar produtos (público)    |
-| /proposals     | GET/POST | Listar/criar propostas     |
-| /proposals/:id/approve | POST | Aprovar (admin)        |
-| /commissions/me | GET   | Minhas comissões             |
-| /commissions/me/balance | GET | Saldo pendente        |
-| /payments/request | POST | Solicitar saque/antecipação |
-| /payments/me   | GET    | Meus pagamentos              |
-| /network/me    | GET    | Minha rede (uplines/downlines) |
-| /journey/me    | GET    | Meu progresso na jornada     |
-| /notifications/me | GET | Minhas notificações      |
-| /dashboard/me  | GET    | Dashboard (vendas, comissões, próximo pagamento, rede) |
+**Base URL:** `http://localhost:3000` (dev) ou `https://SEU-SERVICO.onrender.com` (prod)
+
+**Header para rotas protegidas:**
+```http
+Authorization: Bearer <accessToken>
+Content-Type: application/json
+```
+
+---
+
+#### Raiz
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| GET | `/` | Não | Health check |
+
+**Resposta exemplo:** `{ "message": "United Club API" }`
+
+---
+
+#### Auth (público)
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| POST | `/auth/login` | Não | Login |
+| POST | `/auth/register` | Não | Registro (solicitar acesso) |
+| POST | `/auth/refresh` | Não | Renovar access token |
+
+**POST /auth/register**
+
+Request:
+```json
+{
+  "email": "novo@example.com",
+  "password": "senha123",
+  "fullName": "João Silva",
+  "phone": "+5511999999999"
+}
+```
+`phone` é opcional. Senha mínima: 6 caracteres.
+
+Response 201:
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "expiresIn": "15m",
+  "user": {
+    "id": "675abc123...",
+    "email": "novo@example.com",
+    "role": "affiliate",
+    "fullName": "João Silva"
+  }
+}
+```
+
+**POST /auth/login**
+
+Request:
+```json
+{
+  "email": "user@example.com",
+  "password": "senha123"
+}
+```
+
+Response 201:
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "expiresIn": "15m"
+}
+```
+
+**POST /auth/refresh**
+
+Request:
+```json
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+Response 201: mesmo formato de `/auth/login` (novo `accessToken` e `refreshToken`).
+
+---
+
+#### Usuários (admin)
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| GET | `/users` | Admin | Listar usuários (query: `page`, `limit`, `role`) |
+| GET | `/users/:id` | Sim | Buscar usuário por ID |
+
+**GET /users?page=1&limit=20&role=affiliate**
+
+Response 200:
+```json
+{
+  "data": [
+    {
+      "id": "675abc123...",
+      "email": "user@example.com",
+      "role": "affiliate",
+      "isActive": true,
+      "createdAt": "2026-02-01T12:00:00.000Z",
+      "profile": { "fullName": "João Silva", ... }
+    }
+  ],
+  "meta": { "total": 42 }
+}
+```
+
+---
+
+#### Perfis
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| GET | `/profiles/me` | Sim | Meu perfil |
+| GET | `/profiles/:userId` | Sim | Perfil por userId (próprio ou admin) |
+| PUT | `/profiles/:userId` | Sim | Atualizar perfil (próprio ou admin) |
+
+**PUT /profiles/:userId**
+
+Request:
+```json
+{
+  "fullName": "João Silva",
+  "document": "12345678900",
+  "phone": "11999999999",
+  "avatarUrl": "https://...",
+  "bankCode": "001",
+  "bankAgency": "1234",
+  "bankAccount": "56789-0",
+  "pixKey": "user@example.com"
+}
+```
+Todos os campos são opcionais; envie apenas os que deseja atualizar.
+
+**GET /profiles/me** – Response 200:
+```json
+{
+  "id": "675abc...",
+  "userId": "675def...",
+  "fullName": "João Silva",
+  "document": "12345678900",
+  "phone": "11999999999",
+  "avatarUrl": null,
+  "bankCode": null,
+  "bankAgency": null,
+  "bankAccount": null,
+  "pixKey": null,
+  "createdAt": "2026-02-01T12:00:00.000Z",
+  "updatedAt": "2026-02-01T12:00:00.000Z"
+}
+```
+
+---
+
+#### Produtos
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| GET | `/products` | Não | Listar (query: `page`, `limit`, `activeOnly=true`) |
+| GET | `/products/:id` | Não | Buscar por ID |
+| POST | `/products` | Admin | Criar produto |
+| PUT | `/products/:id` | Admin | Atualizar produto |
+
+**GET /products?page=1&limit=10&activeOnly=true**
+
+**POST /products** (admin)
+
+Request:
+```json
+{
+  "name": "Curso Premium",
+  "slug": "curso-premium",
+  "description": "Acesso vitalício ao curso.",
+  "price": 997.9,
+  "isActive": true
+}
+```
+
+**PUT /products/:id** – body parcial (apenas campos a alterar), ex.:
+```json
+{
+  "price": 797.9,
+  "isActive": false
+}
+```
+
+**Response produto (GET/POST/PUT):**
+```json
+{
+  "id": "675abc...",
+  "name": "Curso Premium",
+  "slug": "curso-premium",
+  "description": "Acesso vitalício ao curso.",
+  "price": 997.9,
+  "isActive": true,
+  "createdAt": "2026-02-01T12:00:00.000Z",
+  "updatedAt": "2026-02-01T12:00:00.000Z"
+}
+```
+
+Listagem: `{ "data": [ ... ], "total": 5 }`.
+
+---
+
+#### Propostas (vendas)
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| POST | `/proposals` | Sim | Criar proposta |
+| GET | `/proposals` | Sim | Listar (query: `page`, `limit`, `status`, `profileId`) |
+| GET | `/proposals/:id` | Sim | Buscar por ID |
+| POST | `/proposals/:id/approve` | Admin | Aprovar proposta |
+| POST | `/proposals/:id/reject` | Admin | Rejeitar proposta (body opcional: `rejectionReason`) |
+
+**POST /proposals**
+
+Request:
+```json
+{
+  "profileId": "675abc123def456...",
+  "productId": "675xyz789...",
+  "value": 997.9,
+  "idempotencyKey": "venda-123-unica"
+}
+```
+`idempotencyKey` opcional; evita duplicar proposta na mesma venda.
+
+**POST /proposals/:id/reject**
+
+Request (opcional):
+```json
+{
+  "rejectionReason": "Documentação incompleta"
+}
+```
+
+**Response proposta:** inclui `id`, `profileId`, `productId`, `value`, `status` (`pending` | `approved` | `rejected`), `approvedAt`, `rejectedAt`, `rejectionReason`, `createdAt`, `updatedAt`, e relações `profile`, `product` quando aplicável.
+
+Listagem: `{ "data": [ ... ], "total": 10 }`.
+
+---
+
+#### Comissões
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| GET | `/commissions/me` | Sim | Minhas comissões (query: `status`, `page`, `limit`) |
+| GET | `/commissions/me/balance` | Sim | Saldo pendente |
+| GET | `/commissions/me/pending` | Sim | Lista de comissões pendentes |
+| GET | `/commissions/:id` | Sim | Comissão por ID (dono) |
+
+**GET /commissions/me?status=pending&page=1&limit=20**
+
+**GET /commissions/me/balance**
+
+Response 200:
+```json
+{
+  "balance": 1250.75
+}
+```
+Ou o valor direto num número, conforme implementação.
+
+**Response comissão:** `id`, `proposalId`, `userId`, `level`, `percentage`, `amount`, `status` (`pending` | `reserved` | `paid`), `paidAt`, `createdAt`, e relação `proposal` quando aplicável.
+
+---
+
+#### Pagamentos
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| POST | `/payments/request` | Sim | Solicitar saque ou antecipação |
+| GET | `/payments/me` | Sim | Meus pagamentos (query: `status`, `page`, `limit`) |
+| GET | `/payments/:id` | Sim | Pagamento por ID (dono) |
+| POST | `/payments/:id/mark-paid` | Admin | Marcar como pago |
+
+**POST /payments/request**
+
+Request:
+```json
+{
+  "amount": 500,
+  "type": "withdrawal"
+}
+```
+`type`: `"withdrawal"` (saque) ou `"advance"` (antecipação; taxa 5%).
+
+**POST /payments/:id/mark-paid** (admin)
+
+Request (opcional):
+```json
+{
+  "externalId": "PIX-12345"
+}
+```
+
+**Response pagamento:** `id`, `userId`, `type`, `grossAmount`, `feeAmount`, `netAmount`, `status` (`pending` | `processing` | `completed` | `failed` | `cancelled`), `processedAt`, `externalId`, `createdAt`, `updatedAt`.
+
+---
+
+#### Rede (afiliados)
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| GET | `/network/me` | Sim | Minha rede (resumo) |
+| GET | `/network/me/uplines` | Sim | Quem me indicou (uplines) |
+| GET | `/network/me/downlines` | Sim | Quem indiquei (query: `level`) |
+| GET | `/network/me/stats` | Sim | Estatísticas da rede |
+| GET | `/network/:userId` | Admin | Rede de um usuário |
+
+**GET /network/me/stats** – Response exemplo:
+```json
+{
+  "totalUplines": 2,
+  "totalDownlines": 5,
+  "directDownlines": 3
+}
+```
+
+---
+
+#### Jornada (níveis)
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| GET | `/journey/me` | Sim | Meu progresso na jornada |
+| GET | `/journey/levels` | Não | Lista de níveis (metas em R$) |
+
+**GET /journey/me** – Response exemplo:
+```json
+{
+  "progress": {
+    "userId": "675abc...",
+    "totalSales": 25000,
+    "currentLevelId": "675level2...",
+    "currentLevel": { "name": "Executor", "slug": "executor", "order": 2, "minSales": 50000 },
+    "lastLevelUpAt": "2026-02-01T12:00:00.000Z"
+  },
+  "levels": [ ... ],
+  "nextLevel": { "name": "Alquimista", "minSales": 100000, "order": 3 },
+  "totalSales": 25000
+}
+```
+
+---
+
+#### Notificações
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| GET | `/notifications/me` | Sim | Minhas notificações (query: `unreadOnly`, `page`, `limit`) |
+| PATCH | `/notifications/:id/read` | Sim | Marcar como lida |
+| POST | `/notifications/read-all` | Sim | Marcar todas como lidas |
+
+**Response notificação:** `id`, `userId`, `type`, `title`, `body`, `readAt`, `metadata`, `createdAt`.
+
+---
+
+#### Dashboard
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| GET | `/dashboard/me` | Sim | Resumo: vendas, saldo, jornada, rede, próximo pagamento |
+
+**GET /dashboard/me** – Response exemplo:
+```json
+{
+  "totalSales": 25000,
+  "totalCommissions": 1250.75,
+  "nextPayment": {
+    "id": "675pay...",
+    "amount": 500,
+    "type": "withdrawal",
+    "status": "pending",
+    "createdAt": "2026-02-01T12:00:00.000Z"
+  },
+  "journey": { ... },
+  "network": { ... }
+}
+```
+
+---
+
+#### Exemplo de integração no frontend (fetch)
+
+```javascript
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+// Registro (solicitar acesso)
+const register = async (email, password, fullName, phone) => {
+  const res = await fetch(`${API_URL}/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password, fullName, phone }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Erro no registro');
+  return data; // { accessToken, refreshToken, expiresIn, user }
+};
+
+// Login
+const login = async (email, password) => {
+  const res = await fetch(`${API_URL}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Erro no login');
+  return data; // { accessToken, refreshToken, expiresIn }
+};
+
+// Chamada autenticada
+const getProfile = async (accessToken) => {
+  const res = await fetch(`${API_URL}/profiles/me`, {
+    headers: { 'Authorization': `Bearer ${accessToken}` },
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Erro ao buscar perfil');
+  return data;
+};
+
+// Criar proposta
+const createProposal = async (accessToken, body) => {
+  const res = await fetch(`${API_URL}/proposals`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Erro ao criar proposta');
+  return data;
+};
+```
+
+---
 
 ### Estrutura
 
