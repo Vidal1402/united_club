@@ -6,6 +6,8 @@ import helmet from 'helmet';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  console.log('[Render] Bootstrap iniciando... PORT=', process.env.PORT);
+
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
 
@@ -39,7 +41,12 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swagger);
   SwaggerModule.setup('api/docs', app, document);
 
-  const port = parseInt(process.env.PORT ?? '3000', 10);
+  // Render exige que a app escute em process.env.PORT (ex.: 10000)
+  const port = Number(process.env.PORT) || 10000;
+  if (!Number.isInteger(port) || port < 1) {
+    throw new Error(`PORT inválido: ${process.env.PORT}`);
+  }
+  console.log('[Render] Abrindo porta', port, 'em 0.0.0.0...');
   await app.listen(port, '0.0.0.0');
   console.log(`United Club API listening on port ${port}`);
   console.log(`Swagger: /api/docs`);
