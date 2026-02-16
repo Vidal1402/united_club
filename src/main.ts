@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 
@@ -29,25 +30,19 @@ async function bootstrap() {
     }),
   );
 
-  try {
-    const { SwaggerModule, DocumentBuilder } = await import('@nestjs/swagger');
-    const swagger = new DocumentBuilder()
-      .setTitle('United Club API')
-      .setDescription('Plataforma de Afiliados Gamificada - Fintech')
-      .setVersion('1.0')
-      .addBearerAuth()
-      .build();
-    const document = SwaggerModule.createDocument(app, swagger);
-    SwaggerModule.setup('api/docs', app, document);
-    console.log('Swagger: /api/docs');
-  } catch (e) {
-    console.warn('Swagger não carregado (API segue funcionando):', (e as Error).message);
-  }
+  const swagger = new DocumentBuilder()
+    .setTitle('United Club API')
+    .setDescription('Plataforma de Afiliados Gamificada - Fintech')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, swagger);
+  SwaggerModule.setup('api/docs', app, document);
 
-  // Render injeta PORT; obrigatório usar para detectar a porta
   const port = parseInt(process.env.PORT ?? '3000', 10);
   await app.listen(port, '0.0.0.0');
   console.log(`United Club API listening on port ${port}`);
+  console.log(`Swagger: /api/docs`);
 }
 
 bootstrap().catch((err) => {

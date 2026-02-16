@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@nestjs/core");
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
+const swagger_1 = require("@nestjs/swagger");
 const helmet_1 = __importDefault(require("helmet"));
 const app_module_1 = require("./app.module");
 async function bootstrap() {
@@ -25,24 +26,21 @@ async function bootstrap() {
         transform: true,
         transformOptions: { enableImplicitConversion: true },
     }));
-    try {
-        const { SwaggerModule, DocumentBuilder } = await import('@nestjs/swagger');
-        const swagger = new DocumentBuilder()
-            .setTitle('United Club API')
-            .setDescription('Plataforma de Afiliados Gamificada - Fintech')
-            .setVersion('1.0')
-            .addBearerAuth()
-            .build();
-        const document = SwaggerModule.createDocument(app, swagger);
-        SwaggerModule.setup('api/docs', app, document);
-        console.log('Swagger: /api/docs');
-    }
-    catch (e) {
-        console.warn('Swagger não carregado (API segue funcionando):', e.message);
-    }
-    const port = Number(process.env.PORT) || config.get('PORT', 3000);
+    const swagger = new swagger_1.DocumentBuilder()
+        .setTitle('United Club API')
+        .setDescription('Plataforma de Afiliados Gamificada - Fintech')
+        .setVersion('1.0')
+        .addBearerAuth()
+        .build();
+    const document = swagger_1.SwaggerModule.createDocument(app, swagger);
+    swagger_1.SwaggerModule.setup('api/docs', app, document);
+    const port = parseInt(process.env.PORT ?? '3000', 10);
     await app.listen(port, '0.0.0.0');
     console.log(`United Club API listening on port ${port}`);
+    console.log(`Swagger: /api/docs`);
 }
-bootstrap();
+bootstrap().catch((err) => {
+    console.error('Falha ao subir a API:', err);
+    process.exit(1);
+});
 //# sourceMappingURL=main.js.map
