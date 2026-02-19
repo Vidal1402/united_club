@@ -571,6 +571,11 @@ const login = async (email, password) => {
   return data; // { accessToken, refreshToken, expiresIn }
 };
 
+// Importante: após login/registro, guarde o accessToken (estado + localStorage, etc.)
+// e use-o em TODAS as requisições protegidas. Não chame /profiles/me, /dashboard/me
+// etc. antes de ter o token definido no cliente, senão a API responde 401 e o app
+// pode fazer logout automático.
+
 // Chamada autenticada
 const getProfile = async (accessToken) => {
   const res = await fetch(`${API_URL}/profiles/me`, {

@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 const JOURNEY_LEVELS = [
   { name: 'Aprendiz', slug: 'aprendiz', minSales: 15_000, order: 1 },
@@ -10,9 +11,30 @@ const JOURNEY_LEVELS = [
   { name: 'Campeao', slug: 'campeao', minSales: 5_000_000, order: 7 },
 ];
 
+const ADMIN_EMAIL = 'admin@unitedclub.com';
+const ADMIN_PASSWORD = 'admin123'; // altere após o primeiro login em produção
+
 const prisma = new PrismaClient();
 
 async function main() {
+  // Usuário admin (login: admin@unitedclub.com / admin123)
+  const passwordHash = await bcrypt.hash(ADMIN_PASSWORD, 10);
+  const admin = await prisma.user.upsert({
+    where: { email: ADMIN_EMAIL },
+    create: {
+      email: ADMIN_EMAIL,
+      passwordHash,
+      role: 'admin',
+    },
+    update: {},
+  });
+  await prisma.profile.upsert({
+    where: { userId: admin.id },
+    create: { userId: admin.id, fullName: 'Administrador' },
+    update: { fullName: 'Administrador' },
+  });
+  console.log('Admin user seeded:', ADMIN_EMAIL);
+
   for (const level of JOURNEY_LEVELS) {
     await prisma.journeyLevel.upsert({
       where: { slug: level.slug },
