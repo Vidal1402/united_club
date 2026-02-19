@@ -30,19 +30,19 @@ export declare class DashboardService {
             };
             levels: {
                 id: string;
-                slug: string;
+                createdAt: Date;
                 name: string;
+                slug: string;
                 minSales: number;
                 order: number;
-                createdAt: Date;
             }[];
             nextLevel: {
                 id: string;
-                slug: string;
+                createdAt: Date;
                 name: string;
+                slug: string;
                 minSales: number;
                 order: number;
-                createdAt: Date;
             } | undefined;
             totalSales: number;
         };

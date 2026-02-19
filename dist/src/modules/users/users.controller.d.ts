@@ -6,10 +6,10 @@ export declare class UsersController {
     list(page?: string, limit?: string, role?: Role): Promise<{
         data: {
             id: string;
-            createdAt: Date;
             email: string;
             role: import(".prisma/client").$Enums.Role;
             isActive: boolean;
+            createdAt: Date;
             updatedAt: Date;
         }[];
         meta: {
@@ -18,10 +18,10 @@ export declare class UsersController {
     }>;
     findOne(id: string): Promise<{
         id: string;
-        createdAt: Date;
         email: string;
         role: import(".prisma/client").$Enums.Role;
         isActive: boolean;
+        createdAt: Date;
         updatedAt: Date;
     } | null>;
 }

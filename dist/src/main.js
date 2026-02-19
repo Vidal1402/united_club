@@ -9,12 +9,27 @@ const config_1 = require("@nestjs/config");
 const swagger_1 = require("@nestjs/swagger");
 const helmet_1 = __importDefault(require("helmet"));
 const app_module_1 = require("./app.module");
+const LOVABLE_ORIGIN_SUFFIXES = ['.lovable.app', '.lovableproject.com'];
+function isLovableOrigin(origin) {
+    if (!origin || typeof origin !== 'string')
+        return false;
+    return LOVABLE_ORIGIN_SUFFIXES.some((s) => origin.endsWith(s));
+}
 function corsMiddleware(req, res, next) {
     const raw = process.env.CORS_ORIGIN ?? '*';
     const origins = raw.split(',').map((o) => o.trim()).filter(Boolean);
     const allowAny = origins.length === 0 || origins.every((o) => o === '*');
     const requestOrigin = req.headers.origin;
-    const origin = allowAny ? requestOrigin : (requestOrigin && origins.includes(requestOrigin) ? requestOrigin : undefined);
+    let origin;
+    if (allowAny) {
+        origin = requestOrigin;
+    }
+    else if (requestOrigin && origins.includes(requestOrigin)) {
+        origin = requestOrigin;
+    }
+    else if (isLovableOrigin(requestOrigin)) {
+        origin = requestOrigin;
+    }
     if (origin)
         res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -37,11 +52,20 @@ async function bootstrap() {
     }));
     const corsOrigin = config.get('CORS_ORIGIN', '*');
     const origins = corsOrigin.split(',').map((o) => o.trim()).filter(Boolean);
-    const allowOrigin = origins.length && !origins.every((o) => o === '*')
-        ? origins
-        : true;
+    const allowAny = origins.length === 0 || origins.every((o) => o === '*');
+    const originCallback = (requestOrigin, callback) => {
+        if (allowAny || !requestOrigin) {
+            callback(null, allowAny ? requestOrigin : true);
+            return;
+        }
+        if (origins.includes(requestOrigin) || isLovableOrigin(requestOrigin)) {
+            callback(null, requestOrigin);
+            return;
+        }
+        callback(null, false);
+    };
     app.enableCors({
-        origin: allowOrigin,
+        origin: originCallback,
         credentials: true,
         methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],

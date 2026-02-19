@@ -18,11 +18,11 @@ export declare class CommissionsService {
             proposal: {
                 product: {
                     id: string;
-                    slug: string;
-                    name: string;
-                    createdAt: Date;
                     isActive: boolean;
+                    createdAt: Date;
                     updatedAt: Date;
+                    name: string;
+                    slug: string;
                     description: string | null;
                     price: number;
                 };

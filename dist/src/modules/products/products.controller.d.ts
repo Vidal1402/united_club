@@ -7,11 +7,11 @@ export declare class ProductsController {
     list(page?: string, limit?: string, activeOnly?: string): Promise<{
         data: {
             id: string;
-            slug: string;
-            name: string;
-            createdAt: Date;
             isActive: boolean;
+            createdAt: Date;
             updatedAt: Date;
+            name: string;
+            slug: string;
             description: string | null;
             price: number;
         }[];
@@ -21,31 +21,31 @@ export declare class ProductsController {
     }>;
     findOne(id: string): Promise<{
         id: string;
-        slug: string;
-        name: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
         updatedAt: Date;
+        name: string;
+        slug: string;
         description: string | null;
         price: number;
     }>;
     create(dto: CreateProductDto): Promise<{
         id: string;
-        slug: string;
-        name: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
         updatedAt: Date;
+        name: string;
+        slug: string;
         description: string | null;
         price: number;
     }>;
     update(id: string, dto: UpdateProductDto): Promise<{
         id: string;
-        slug: string;
-        name: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
         updatedAt: Date;
+        name: string;
+        slug: string;
         description: string | null;
         price: number;
     }>;

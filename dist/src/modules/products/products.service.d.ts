@@ -6,32 +6,32 @@ export declare class ProductsService {
     constructor(repository: ProductsRepository);
     create(dto: CreateProductDto): Promise<{
         id: string;
-        slug: string;
-        name: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
         updatedAt: Date;
+        name: string;
+        slug: string;
         description: string | null;
         price: number;
     }>;
     findById(id: string): Promise<{
         id: string;
-        slug: string;
-        name: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
         updatedAt: Date;
+        name: string;
+        slug: string;
         description: string | null;
         price: number;
     }>;
     findMany(page?: number, limit?: number, activeOnly?: boolean): Promise<{
         data: {
             id: string;
-            slug: string;
-            name: string;
-            createdAt: Date;
             isActive: boolean;
+            createdAt: Date;
             updatedAt: Date;
+            name: string;
+            slug: string;
             description: string | null;
             price: number;
         }[];
@@ -39,11 +39,11 @@ export declare class ProductsService {
     }>;
     update(id: string, dto: UpdateProductDto): Promise<{
         id: string;
-        slug: string;
-        name: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
         updatedAt: Date;
+        name: string;
+        slug: string;
         description: string | null;
         price: number;
     }>;

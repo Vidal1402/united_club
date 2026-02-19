@@ -25,11 +25,11 @@ export declare class UsersService {
     }): Promise<{
         data: {
             id: string;
-            createdAt: Date;
             email: string;
             passwordHash: string | null;
             role: import(".prisma/client").$Enums.Role;
             isActive: boolean;
+            createdAt: Date;
             updatedAt: Date;
         }[];
         total: number;

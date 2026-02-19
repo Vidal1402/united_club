@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 const JOURNEY_LEVELS = [
@@ -25,7 +25,7 @@ async function main() {
       email: ADMIN_EMAIL,
       passwordHash,
       role: 'admin',
-    },
+    } as Prisma.UserCreateInput,
     update: {},
   });
   // document é @unique; usar valor próprio para não conflitar com outros perfis (null/outros CPFs)
