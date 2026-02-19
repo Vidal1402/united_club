@@ -28,10 +28,11 @@ async function main() {
     },
     update: {},
   });
+  // document é @unique; usar valor próprio para não conflitar com outros perfis (null/outros CPFs)
   await prisma.profile.upsert({
     where: { userId: admin.id },
-    create: { userId: admin.id, fullName: 'Administrador' },
-    update: { fullName: 'Administrador' },
+    create: { userId: admin.id, fullName: 'Administrador', document: 'ADMIN-SYSTEM' },
+    update: { fullName: 'Administrador', document: 'ADMIN-SYSTEM' },
   });
   console.log('Admin user seeded:', ADMIN_EMAIL);
 
