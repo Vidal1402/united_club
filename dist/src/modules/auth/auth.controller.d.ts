@@ -5,6 +5,10 @@ import { RegisterDto } from './dto/register.dto';
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
+    registerGet(): {
+        statusCode: number;
+        message: string;
+    };
     register(dto: RegisterDto): Promise<import("./auth.service").RegisterResult>;
     login(dto: LoginDto): Promise<TokenPair>;
     refresh(dto: RefreshTokenDto): Promise<TokenPair>;

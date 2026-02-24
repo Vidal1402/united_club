@@ -34,6 +34,7 @@ let UsersRepository = class UsersRepository {
                     userId: user.id,
                     fullName: profileData.fullName,
                     phone: profileData.phone ?? undefined,
+                    document: `__pending_${user.id}`,
                 },
             });
         }

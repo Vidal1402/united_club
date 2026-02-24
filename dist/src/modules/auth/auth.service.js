@@ -47,6 +47,7 @@ const bcrypt = __importStar(require("bcrypt"));
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
+const client_1 = require("@prisma/client");
 const users_service_1 = require("../users/users.service");
 const SALT_ROUNDS = 10;
 let AuthService = class AuthService {
@@ -79,12 +80,21 @@ let AuthService = class AuthService {
     }
     async register(email, password, fullName, phone) {
         const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
-        const user = await this.usersService.createForRegister({
-            email,
-            passwordHash,
-            fullName,
-            phone,
-        });
+        let user;
+        try {
+            user = await this.usersService.createForRegister({
+                email,
+                passwordHash,
+                fullName,
+                phone,
+            });
+        }
+        catch (err) {
+            if (err instanceof client_1.Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+                throw new common_1.ConflictException('E-mail já cadastrado');
+            }
+            throw err;
+        }
         const profile = user.profile;
         const tokens = this.generateTokens({
             id: user.id,

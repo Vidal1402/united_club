@@ -25,12 +25,14 @@ export class UsersRepository {
         role: userData.role ?? 'affiliate',
       },
     });
+    // document é @unique: não pode haver dois null. Usar placeholder único até o usuário informar CPF.
     try {
       await this.prisma.profile.create({
         data: {
           userId: user.id,
           fullName: profileData.fullName,
           phone: profileData.phone ?? undefined,
+          document: `__pending_${user.id}`,
         },
       });
     } catch (err) {

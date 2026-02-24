@@ -26,6 +26,9 @@ let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
+    registerGet() {
+        return { statusCode: 405, message: 'Use POST /auth/register com body { email, password, fullName, phone? }' };
+    }
     async register(dto) {
         return this.authService.register(dto.email, dto.password, dto.fullName, dto.phone);
     }
@@ -37,6 +40,15 @@ let AuthController = class AuthController {
     }
 };
 exports.AuthController = AuthController;
+__decorate([
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Get)('register'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.METHOD_NOT_ALLOWED),
+    (0, swagger_1.ApiExcludeEndpoint)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "registerGet", null);
 __decorate([
     (0, public_decorator_1.Public)(),
     (0, common_1.Post)('register'),

@@ -1,7 +1,8 @@
 import * as bcrypt from 'bcrypt';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { Prisma } from '@prisma/client';
 import { UsersService } from '../users/users.service';
 import type { JwtPayload } from '../../common/types/auth.types';
 
@@ -50,12 +51,20 @@ export class AuthService {
     phone?: string,
   ): Promise<RegisterResult> {
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
-    const user = await this.usersService.createForRegister({
-      email,
-      passwordHash,
-      fullName,
-      phone,
-    });
+    let user: Awaited<ReturnType<UsersService['createForRegister']>>;
+    try {
+      user = await this.usersService.createForRegister({
+        email,
+        passwordHash,
+        fullName,
+        phone,
+      });
+    } catch (err) {
+      if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+        throw new ConflictException('E-mail já cadastrado');
+      }
+      throw err;
+    }
     const profile = user.profile;
     const tokens = this.generateTokens({
       id: user.id,
