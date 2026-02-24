@@ -119,6 +119,8 @@ No código do front, use essa variável como base das chamadas, por exemplo:
 
 O front deve guardar os tokens (ex.: em memória + refresh no `localStorage` ou em cookie httpOnly, conforme sua estratégia de segurança).
 
+**Se ao logar aparecer 401 em `/profiles/me`, `/dashboard/me`, etc. e o app voltar para a tela de login:** a requisição está indo **sem** o header `Authorization: Bearer <accessToken>`. No front: (1) guarde o `accessToken` da resposta do login no estado/Context (e opcionalmente no `localStorage`) **antes** de redirecionar; (2) em **todas** as chamadas à API (exceto login/register), envie o header `Authorization: Bearer \${accessToken}`; (3) use um interceptor (Axios) ou um client que já inclua o token, para não esquecer em nenhuma rota. No DevTools → Network, abra a requisição que deu 401 e confira se em Request Headers existe `Authorization: Bearer eyJ...`.
+
 #### 4. Resumo rápido
 
 | Onde      | O que configurar |
