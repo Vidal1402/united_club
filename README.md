@@ -154,6 +154,1587 @@ O front deve guardar os tokens (ex.: em memória + refresh no `localStorage` ou 
 7. **Swagger** – Após o deploy: `https://SEU-SERVICO.onrender.com/api/docs`.
 
 ### Fluxo principal (exemplo)
+GET https://united-club.onrender.com/dashboard/me 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+VD @ index-UuRRzwGd.js:40
+S @ index-UuRRzwGd.js:25
+_ @ index-UuRRzwGd.js:25Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/notifications/me?limit=10 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+VD @ index-UuRRzwGd.js:40
+S @ index-UuRRzwGd.js:25
+_ @ index-UuRRzwGd.js:25Understand this error
+index-UuRRzwGd.js:450  POST https://united-club.onrender.com/auth/refresh 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+(anonymous) @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+(anonymous) @ index-UuRRzwGd.js:453
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+VD @ index-UuRRzwGd.js:40
+S @ index-UuRRzwGd.js:25
+_ @ index-UuRRzwGd.js:25Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/journey/me 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+l @ index-UuRRzwGd.js:421
+h @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+VD @ index-UuRRzwGd.js:40
+S @ index-UuRRzwGd.js:25
+_ @ index-UuRRzwGd.js:25Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/proposals?limit=5 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+list @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+l @ index-UuRRzwGd.js:421
+h @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+VD @ index-UuRRzwGd.js:40
+S @ index-UuRRzwGd.js:25
+_ @ index-UuRRzwGd.js:25Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/commissions/me?limit=100 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+l @ index-UuRRzwGd.js:421
+h @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+VD @ index-UuRRzwGd.js:40
+S @ index-UuRRzwGd.js:25
+_ @ index-UuRRzwGd.js:25Understand this error
+index-UuRRzwGd.js:450  POST https://united-club.onrender.com/auth/refresh 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+(anonymous) @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+(anonymous) @ index-UuRRzwGd.js:453
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+l @ index-UuRRzwGd.js:421
+h @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+VD @ index-UuRRzwGd.js:40
+S @ index-UuRRzwGd.js:25
+_ @ index-UuRRzwGd.js:25Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/journey/me 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+l @ index-UuRRzwGd.js:421
+h @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+VD @ index-UuRRzwGd.js:40
+S @ index-UuRRzwGd.js:25
+_ @ index-UuRRzwGd.js:25Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/proposals?limit=5 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+list @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+l @ index-UuRRzwGd.js:421
+h @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+VD @ index-UuRRzwGd.js:40
+S @ index-UuRRzwGd.js:25
+_ @ index-UuRRzwGd.js:25Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/commissions/me?limit=100 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+l @ index-UuRRzwGd.js:421
+h @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+VD @ index-UuRRzwGd.js:40
+S @ index-UuRRzwGd.js:25
+_ @ index-UuRRzwGd.js:25Understand this error
+index-UuRRzwGd.js:450  POST https://united-club.onrender.com/auth/refresh 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+(anonymous) @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+(anonymous) @ index-UuRRzwGd.js:453
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+l @ index-UuRRzwGd.js:421
+h @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+VD @ index-UuRRzwGd.js:40
+S @ index-UuRRzwGd.js:25
+_ @ index-UuRRzwGd.js:25Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/dashboard/me 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/notifications/me?limit=10 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  POST https://united-club.onrender.com/auth/refresh 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+(anonymous) @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+(anonymous) @ index-UuRRzwGd.js:453
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/commissions/me?limit=100 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+onPause @ index-UuRRzwGd.js:421
+Promise.then.i @ index-UuRRzwGd.js:421
+p @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/journey/me 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+onPause @ index-UuRRzwGd.js:421
+Promise.then.i @ index-UuRRzwGd.js:421
+p @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/proposals?limit=5 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+list @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+onPause @ index-UuRRzwGd.js:421
+Promise.then.i @ index-UuRRzwGd.js:421
+p @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  POST https://united-club.onrender.com/auth/refresh 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+(anonymous) @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+(anonymous) @ index-UuRRzwGd.js:453
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+onPause @ index-UuRRzwGd.js:421
+Promise.then.i @ index-UuRRzwGd.js:421
+p @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/dashboard/me 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/commissions/me?limit=100 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+onPause @ index-UuRRzwGd.js:421
+Promise.then.i @ index-UuRRzwGd.js:421
+p @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/proposals?limit=5 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+list @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+onPause @ index-UuRRzwGd.js:421
+Promise.then.i @ index-UuRRzwGd.js:421
+p @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/notifications/me?limit=10 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/journey/me 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+onSubscribe @ index-UuRRzwGd.js:421
+subscribe @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+cD @ index-UuRRzwGd.js:38
+Py @ index-UuRRzwGd.js:40
+Oc @ index-UuRRzwGd.js:40
+q7 @ index-UuRRzwGd.js:40
+js @ index-UuRRzwGd.js:40
+aO @ index-UuRRzwGd.js:40
+ss @ index-UuRRzwGd.js:38
+(anonymous) @ index-UuRRzwGd.js:40
+setTimeout
+NX @ index-UuRRzwGd.js:421
+o @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+va @ index-UuRRzwGd.js:421
+onPause @ index-UuRRzwGd.js:421
+Promise.then.i @ index-UuRRzwGd.js:421
+p @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  POST https://united-club.onrender.com/auth/refresh 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+(anonymous) @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+(anonymous) @ index-UuRRzwGd.js:453
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/notifications/me?limit=10 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/dashboard/me 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  POST https://united-club.onrender.com/auth/refresh 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+(anonymous) @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+(anonymous) @ index-UuRRzwGd.js:453
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/dashboard/me 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  GET https://united-club.onrender.com/notifications/me?limit=10 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
+index-UuRRzwGd.js:450  POST https://united-club.onrender.com/auth/refresh 401 (Unauthorized)
+(anonymous) @ index-UuRRzwGd.js:450
+xhr @ index-UuRRzwGd.js:450
+uT @ index-UuRRzwGd.js:452
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+(anonymous) @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+(anonymous) @ index-UuRRzwGd.js:453
+Promise.then
+_request @ index-UuRRzwGd.js:453
+request @ index-UuRRzwGd.js:452
+Qs.<computed> @ index-UuRRzwGd.js:453
+(anonymous) @ index-UuRRzwGd.js:448
+getMe @ index-UuRRzwGd.js:453
+queryFn @ index-UuRRzwGd.js:532
+a @ index-UuRRzwGd.js:421
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.then
+(anonymous) @ index-UuRRzwGd.js:421
+Promise.catch
+g @ index-UuRRzwGd.js:421
+start @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+Qd @ index-UuRRzwGd.js:421
+fetch @ index-UuRRzwGd.js:421
+refetch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+batch @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+await in (anonymous)
+(anonymous) @ index-UuRRzwGd.js:421
+onFocus @ index-UuRRzwGd.js:421
+(anonymous) @ index-UuRRzwGd.js:421
+n @ index-UuRRzwGd.js:421Understand this error
 
 1. **Criar proposta** – `POST /proposals` (body: profileId, productId, value, opcional idempotencyKey).
 2. **Aprovar proposta (admin)** – `POST /proposals/:id/approve`:
