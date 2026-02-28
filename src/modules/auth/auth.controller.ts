@@ -47,4 +47,12 @@ export class AuthController {
   async refresh(@Body() dto: RefreshTokenDto): Promise<TokenPair> {
     return this.authService.refresh(dto.refreshToken);
   }
+
+  @Public()
+  @Get('refresh')
+  @HttpCode(HttpStatus.METHOD_NOT_ALLOWED)
+  @ApiExcludeEndpoint()
+  refreshGet() {
+    return { statusCode: 405, message: 'Use POST /auth/refresh com body { "refreshToken": "..." }' };
+  }
 }
