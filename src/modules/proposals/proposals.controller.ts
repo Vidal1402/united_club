@@ -27,9 +27,9 @@ export class ProposalsController {
   constructor(private readonly proposalsService: ProposalsService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Criar proposta' })
-  async create(@Body() dto: CreateProposalDto) {
-    return this.proposalsService.create(dto);
+  @ApiOperation({ summary: 'Criar proposta (afiliado: profileId opcional, usa perfil do usuário logado)' })
+  async create(@Body() dto: CreateProposalDto, @CurrentUser() user: JwtPayload) {
+    return this.proposalsService.create(dto, user);
   }
 
   @Get()

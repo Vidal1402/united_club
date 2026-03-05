@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   ForbiddenException,
@@ -12,6 +13,7 @@ import { JourneyService } from '../journey/journey.service';
 import { NotificationsService } from '../notifications/notifications.service';
 import { CreateProposalDto } from './dto/create-proposal.dto';
 import { ProposalStatus } from '@prisma/client';
+import type { JwtPayload } from '../../common/types/auth.types';
 
 @Injectable()
 export class ProposalsService {
@@ -24,20 +26,42 @@ export class ProposalsService {
     private notificationsService: NotificationsService,
   ) {}
 
-  async create(dto: CreateProposalDto) {
+  async create(dto: CreateProposalDto, currentUser: JwtPayload) {
+    const isAdmin = currentUser.role === 'admin';
+    let profileId: string;
+
+    if (isAdmin) {
+      if (!dto.profileId) {
+        throw new BadRequestException('profileId é obrigatório ao criar proposta como admin');
+      }
+      profileId = dto.profileId;
+    } else {
+      // Afiliado: sempre usar o perfil do usuário logado (resolvido pelo token)
+      const profile = await this.prisma.profile.findFirst({
+        where: { userId: currentUser.sub },
+        select: { id: true },
+      });
+      if (!profile) {
+        throw new ForbiddenException(
+          'Erro de identificação do perfil. Faça logout e login novamente.',
+        );
+      }
+      profileId = profile.id;
+    }
+
     if (dto.idempotencyKey) {
       const existing = await this.repository.findByIdempotencyKey(dto.idempotencyKey);
       if (existing) return existing;
     }
     const profile = await this.prisma.profile.findUnique({
-      where: { id: dto.profileId },
+      where: { id: profileId },
       include: { user: true },
     });
     if (!profile) throw new NotFoundException('Perfil nao encontrado');
     const product = await this.prisma.product.findUnique({ where: { id: dto.productId } });
     if (!product) throw new NotFoundException('Produto nao encontrado');
     return this.repository.create({
-      profile: { connect: { id: dto.profileId } },
+      profile: { connect: { id: profileId } },
       product: { connect: { id: dto.productId } },
       value: dto.value,
       idempotencyKey: dto.idempotencyKey,

@@ -153,6 +153,19 @@ O front deve guardar os tokens (ex.: em memória + refresh no `localStorage` ou 
 
 7. **Swagger** – Após o deploy: `https://SEU-SERVICO.onrender.com/api/docs`.
 
+### Problemas comuns (propostas e token)
+
+- **POST /proposals retorna 400 ou "Erro de identificação do perfil"**  
+  O backend **ignora** o `profileId` enviado pelo afiliado e usa o perfil do usuário logado. Garanta que:
+  1. O backend no Render está com a versão mais recente (faça deploy após as alterações).
+  2. O header `Authorization: Bearer <accessToken>` está sendo enviado no POST.
+  3. O usuário tem perfil (todo usuário criado pelo registro tem; se não tiver, o backend retorna 403 com essa mensagem).
+
+- **GET /proposals ou outras rotas retornam 401 "Token inválido ou expirado"**  
+  O access token expira em poucos minutos. O frontend deve:
+  1. Renovar o token usando `POST /auth/refresh` com o `refreshToken` antes de expirar, ou
+  2. Fazer logout e login de novo para obter novos tokens.
+
 ### Fluxo principal (exemplo)
 GET https://united-club.onrender.com/dashboard/me 401 (Unauthorized)
 (anonymous) @ index-UuRRzwGd.js:450
@@ -1966,16 +1979,18 @@ Listagem: `{ "data": [ ... ], "total": 5 }`.
 
 **POST /proposals**
 
+- **Afiliado:** o backend usa sempre o perfil do usuário logado (token). Pode enviar `profileId` ou omitir; será ignorado.
+- **Admin:** deve enviar `profileId` do perfil do afiliado.
+
 Request:
 ```json
 {
-  "profileId": "675abc123def456...",
   "productId": "675xyz789...",
   "value": 997.9,
   "idempotencyKey": "venda-123-unica"
 }
 ```
-`idempotencyKey` opcional; evita duplicar proposta na mesma venda.
+`profileId` opcional (afiliado ignora); `idempotencyKey` opcional; evita duplicar proposta na mesma venda.
 
 **POST /proposals/:id/reject**
 
