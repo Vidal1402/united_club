@@ -17,7 +17,7 @@ const ADMIN_PASSWORD = 'admin123'; // altere após o primeiro login em produçã
 const prisma = new PrismaClient();
 
 async function main() {
-  // Usuário admin (login: admin@unitedclub.com / admin123)
+  // Usuário admin (login: admin@unitedclub.com / admin123) — sempre com role admin e ativo
   const passwordHash = await bcrypt.hash(ADMIN_PASSWORD, 10);
   const admin = await prisma.user.upsert({
     where: { email: ADMIN_EMAIL },
@@ -25,8 +25,9 @@ async function main() {
       email: ADMIN_EMAIL,
       passwordHash,
       role: 'admin',
+      isActive: true,
     } as Prisma.UserCreateInput,
-    update: {},
+    update: { role: 'admin', isActive: true, passwordHash },
   });
   // document é @unique; usar valor próprio para não conflitar com outros perfis (null/outros CPFs)
   await prisma.profile.upsert({

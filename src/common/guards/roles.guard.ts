@@ -22,7 +22,11 @@ export class RolesGuard implements CanActivate {
     const { user } = context.switchToHttp().getRequest();
     const hasRole = requiredRoles.some((role) => user?.role === role);
     if (!hasRole) {
-      throw new ForbiddenException('Acesso negado. Permissao insuficiente.');
+      throw new ForbiddenException(
+        requiredRoles.includes(Role.admin)
+          ? 'Recurso restrito a administradores. Verifique se o usuário tem role "admin" no banco.'
+          : 'Acesso negado. Permissão insuficiente.',
+      );
     }
     return true;
   }

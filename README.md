@@ -1831,6 +1831,8 @@ Request:
 
 Response 201: mesmo formato de `/auth/login` (novo `accessToken` e `refreshToken`).
 
+**403 em POST /products ou outras rotas admin:** O backend exige a role **`admin`** (valor exato no banco, não "administrador"). A role é lida do **usuário no MongoDB** no momento da validação do JWT. Confira no documento do usuário no MongoDB que o campo **`role`** seja **`"admin"`**. O usuário criado pelo seed (`admin@unitedclub.com`) já tem `role: "admin"`. Se o usuário logado for outro, altere no banco ou use o admin do seed.
+
 ---
 
 #### Usuários (admin)
