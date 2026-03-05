@@ -5,6 +5,7 @@ export declare class ProfilesController {
     private readonly profilesService;
     constructor(profilesService: ProfilesService);
     me(user: JwtPayload): Promise<{
+        userId: string;
         id: string;
         createdAt: Date;
         updatedAt: Date;
@@ -16,7 +17,6 @@ export declare class ProfilesController {
         bankAgency: string | null;
         bankAccount: string | null;
         pixKey: string | null;
-        userId: string;
     }>;
     findOne(userId: string, user: JwtPayload): Promise<{
         id: string;

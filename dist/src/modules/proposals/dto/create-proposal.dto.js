@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateProposalDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
+const OBJECT_ID_REGEX = /^[a-f0-9]{24}$/i;
 class CreateProposalDto {
     profileId;
     productId;
@@ -20,13 +21,15 @@ class CreateProposalDto {
 }
 exports.CreateProposalDto = CreateProposalDto;
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsUUID)(),
+    (0, swagger_1.ApiProperty)({ description: 'ID do perfil (MongoDB ObjectId)' }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.Matches)(OBJECT_ID_REGEX, { message: 'profileId deve ser um ObjectId válido (24 caracteres hex)' }),
     __metadata("design:type", String)
 ], CreateProposalDto.prototype, "profileId", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsUUID)(),
+    (0, swagger_1.ApiProperty)({ description: 'ID do produto (MongoDB ObjectId)' }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.Matches)(OBJECT_ID_REGEX, { message: 'productId deve ser um ObjectId válido (24 caracteres hex)' }),
     __metadata("design:type", String)
 ], CreateProposalDto.prototype, "productId", void 0);
 __decorate([

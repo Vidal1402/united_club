@@ -55,8 +55,9 @@ async function main() {
             email: ADMIN_EMAIL,
             passwordHash,
             role: 'admin',
+            isActive: true,
         },
-        update: {},
+        update: { role: 'admin', isActive: true, passwordHash },
     });
     await prisma.profile.upsert({
         where: { userId: admin.id },

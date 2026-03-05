@@ -28,7 +28,8 @@ let ProfilesController = class ProfilesController {
         this.profilesService = profilesService;
     }
     async me(user) {
-        return this.profilesService.findByUserId(user.sub);
+        const profile = await this.profilesService.findByUserId(user.sub);
+        return { ...profile, userId: profile.userId };
     }
     async findOne(userId, user) {
         if (user.sub !== userId && user.role !== 'admin') {
@@ -43,7 +44,7 @@ let ProfilesController = class ProfilesController {
 exports.ProfilesController = ProfilesController;
 __decorate([
     (0, common_1.Get)('me'),
-    (0, swagger_1.ApiOperation)({ summary: 'Meu perfil' }),
+    (0, swagger_1.ApiOperation)({ summary: 'Meu perfil (retorna id do perfil, userId, fullName, etc.)' }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

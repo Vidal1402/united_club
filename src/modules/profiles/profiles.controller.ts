@@ -17,9 +17,10 @@ export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
   @Get('me')
-  @ApiOperation({ summary: 'Meu perfil' })
+  @ApiOperation({ summary: 'Meu perfil (retorna id do perfil, userId, fullName, etc.)' })
   async me(@CurrentUser() user: JwtPayload) {
-    return this.profilesService.findByUserId(user.sub);
+    const profile = await this.profilesService.findByUserId(user.sub);
+    return { ...profile, userId: profile.userId };
   }
 
   @Get(':userId')
