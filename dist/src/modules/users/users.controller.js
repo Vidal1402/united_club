@@ -25,11 +25,13 @@ let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    async list(page, limit, role) {
+    async list(page, limit, role, isActive) {
+        const isActiveFilter = isActive === 'true' ? true : isActive === 'false' ? false : undefined;
         const result = await this.usersService.findMany({
             page: page ? parseInt(page, 10) : undefined,
             limit: limit ? parseInt(limit, 10) : undefined,
             role,
+            isActive: isActiveFilter,
         });
         const data = result.data.map(({ passwordHash: _, ...user }) => user);
         return { data, meta: { total: result.total } };
@@ -41,6 +43,16 @@ let UsersController = class UsersController {
         const { passwordHash: _, ...rest } = user;
         return rest;
     }
+    async activate(id) {
+        const user = await this.usersService.setActive(id, true);
+        const { passwordHash: _, ...rest } = user;
+        return rest;
+    }
+    async deactivate(id) {
+        const user = await this.usersService.setActive(id, false);
+        const { passwordHash: _, ...rest } = user;
+        return rest;
+    }
 };
 exports.UsersController = UsersController;
 __decorate([
@@ -48,12 +60,13 @@ __decorate([
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)(client_1.Role.admin),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, swagger_1.ApiOperation)({ summary: 'Listar usuários (admin)' }),
+    (0, swagger_1.ApiOperation)({ summary: 'Listar usuários (admin) — query isActive para pendentes/ativos' }),
     __param(0, (0, common_1.Query)('page')),
     __param(1, (0, common_1.Query)('limit')),
     __param(2, (0, common_1.Query)('role')),
+    __param(3, (0, common_1.Query)('isActive')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:paramtypes", [String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "list", null);
 __decorate([
@@ -65,6 +78,28 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Patch)(':id/activate'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(client_1.Role.admin),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Ativar usuário (admin)' }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "activate", null);
+__decorate([
+    (0, common_1.Patch)(':id/deactivate'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(client_1.Role.admin),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Desativar usuário (admin)' }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "deactivate", null);
 exports.UsersController = UsersController = __decorate([
     (0, swagger_1.ApiTags)('users'),
     (0, common_1.Controller)('users'),

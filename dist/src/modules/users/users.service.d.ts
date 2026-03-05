@@ -16,12 +16,14 @@ export declare class UsersService {
     }): Promise<User & {
         profile: Profile | null;
     }>;
+    setActive(id: string, isActive: boolean): Promise<User>;
     findById(id: string): Promise<User | null>;
     findByEmail(email: string): Promise<User | null>;
     findMany(params: {
         page?: number;
         limit?: number;
         role?: Role;
+        isActive?: boolean;
     }): Promise<{
         data: {
             id: string;

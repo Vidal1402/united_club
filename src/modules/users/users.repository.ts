@@ -15,7 +15,7 @@ export class UsersRepository {
    * MongoDB Atlas M0 não suporta transações; apenas replica sets suportam.
    */
   async createUserWithProfile(
-    userData: { email: string; passwordHash: string; role?: 'admin' | 'affiliate' },
+    userData: { email: string; passwordHash: string; role?: 'admin' | 'affiliate'; isActive?: boolean },
     profileData: { fullName: string; phone?: string },
   ): Promise<User & { profile: Profile | null }> {
     const user = await this.prisma.user.create({
@@ -23,6 +23,7 @@ export class UsersRepository {
         email: userData.email.toLowerCase(),
         passwordHash: userData.passwordHash,
         role: userData.role ?? 'affiliate',
+        isActive: userData.isActive ?? true,
       },
     });
     // document é @unique: não pode haver dois null. Usar placeholder único até o usuário informar CPF.

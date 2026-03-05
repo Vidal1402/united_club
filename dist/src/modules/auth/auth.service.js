@@ -72,11 +72,34 @@ let AuthService = class AuthService {
         return { id: user.id, email: user.email, role: user.role };
     }
     async login(email, password) {
-        const user = await this.validateUser(email, password);
+        const user = await this.usersService.findByEmail(email);
         if (!user) {
             throw new common_1.UnauthorizedException('Credenciais inválidas');
         }
-        return this.generateTokens(user);
+        if (!user.isActive) {
+            throw new common_1.ForbiddenException('ACCOUNT_PENDING');
+        }
+        const hash = user.passwordHash;
+        if (!hash) {
+            throw new common_1.UnauthorizedException('Credenciais inválidas');
+        }
+        const ok = await bcrypt.compare(password, hash);
+        if (!ok) {
+            throw new common_1.UnauthorizedException('Credenciais inválidas');
+        }
+        const validated = { id: user.id, email: user.email, role: user.role };
+        const tokens = this.generateTokens(validated);
+        const userWithProfile = await this.usersService.findById(validated.id);
+        const fullName = userWithProfile?.profile?.fullName;
+        return {
+            ...tokens,
+            user: {
+                id: validated.id,
+                email: validated.email,
+                role: validated.role,
+                fullName,
+            },
+        };
     }
     async register(email, password, fullName, phone) {
         const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);

@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Prisma } from '@prisma/client';
@@ -12,6 +12,10 @@ export interface TokenPair {
   accessToken: string;
   refreshToken: string;
   expiresIn: number;
+}
+
+export interface LoginResult extends TokenPair {
+  user: { id: string; email: string; role: string; fullName?: string };
 }
 
 export interface RegisterResult extends TokenPair {
@@ -36,12 +40,35 @@ export class AuthService {
     return { id: user.id, email: user.email, role: user.role };
   }
 
-  async login(email: string, password: string): Promise<TokenPair> {
-    const user = await this.validateUser(email, password);
+  async login(email: string, password: string): Promise<LoginResult> {
+    const user = await this.usersService.findByEmail(email);
     if (!user) {
       throw new UnauthorizedException('Credenciais inválidas');
     }
-    return this.generateTokens(user);
+    if (!user.isActive) {
+      throw new ForbiddenException('ACCOUNT_PENDING');
+    }
+    const hash = (user as { passwordHash?: string | null }).passwordHash;
+    if (!hash) {
+      throw new UnauthorizedException('Credenciais inválidas');
+    }
+    const ok = await bcrypt.compare(password, hash);
+    if (!ok) {
+      throw new UnauthorizedException('Credenciais inválidas');
+    }
+    const validated = { id: user.id, email: user.email, role: user.role };
+    const tokens = this.generateTokens(validated);
+    const userWithProfile = await this.usersService.findById(validated.id) as { profile?: { fullName: string } | null } | null;
+    const fullName = userWithProfile?.profile?.fullName;
+    return {
+      ...tokens,
+      user: {
+        id: validated.id,
+        email: validated.email,
+        role: validated.role,
+        fullName,
+      },
+    };
   }
 
   async register(

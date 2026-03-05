@@ -26,6 +26,7 @@ let UsersRepository = class UsersRepository {
                 email: userData.email.toLowerCase(),
                 passwordHash: userData.passwordHash,
                 role: userData.role ?? 'affiliate',
+                isActive: userData.isActive ?? true,
             },
         });
         try {

@@ -37,7 +37,11 @@ let UsersService = class UsersService {
             email: data.email,
             passwordHash: data.passwordHash,
             role: 'affiliate',
+            isActive: false,
         }, { fullName: data.fullName, phone: data.phone });
+    }
+    async setActive(id, isActive) {
+        return this.repository.update(id, { isActive });
     }
     async findById(id) {
         return this.repository.findById(id);
@@ -48,7 +52,11 @@ let UsersService = class UsersService {
     async findMany(params) {
         const skip = params.page && params.limit ? (params.page - 1) * params.limit : 0;
         const take = params.limit ?? 20;
-        const where = params.role ? { role: params.role } : {};
+        const where = {};
+        if (params.role)
+            where.role = params.role;
+        if (params.isActive !== undefined)
+            where.isActive = params.isActive;
         const [users, total] = await Promise.all([
             this.repository.findMany({ skip, take, where }),
             this.repository.count(where),

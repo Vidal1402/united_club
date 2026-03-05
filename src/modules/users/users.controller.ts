@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Patch, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
@@ -16,16 +16,20 @@ export class UsersController {
   @UseGuards(RolesGuard)
   @Roles(Role.admin)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Listar usuários (admin)' })
+  @ApiOperation({ summary: 'Listar usuários (admin) — query isActive para pendentes/ativos' })
   async list(
     @Query('page') page?: string,
     @Query('limit') limit?: string,
     @Query('role') role?: Role,
+    @Query('isActive') isActive?: string,
   ) {
+    const isActiveFilter =
+      isActive === 'true' ? true : isActive === 'false' ? false : undefined;
     const result = await this.usersService.findMany({
       page: page ? parseInt(page, 10) : undefined,
       limit: limit ? parseInt(limit, 10) : undefined,
       role,
+      isActive: isActiveFilter,
     });
     const data = result.data.map(({ passwordHash: _, ...user }) => user);
     return { data, meta: { total: result.total } };
@@ -37,6 +41,28 @@ export class UsersController {
   async findOne(@Param('id') id: string) {
     const user = await this.usersService.findById(id);
     if (!user) return null;
+    const { passwordHash: _, ...rest } = user;
+    return rest;
+  }
+
+  @Patch(':id/activate')
+  @UseGuards(RolesGuard)
+  @Roles(Role.admin)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Ativar usuário (admin)' })
+  async activate(@Param('id') id: string) {
+    const user = await this.usersService.setActive(id, true);
+    const { passwordHash: _, ...rest } = user;
+    return rest;
+  }
+
+  @Patch(':id/deactivate')
+  @UseGuards(RolesGuard)
+  @Roles(Role.admin)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Desativar usuário (admin)' })
+  async deactivate(@Param('id') id: string) {
+    const user = await this.usersService.setActive(id, false);
     const { passwordHash: _, ...rest } = user;
     return rest;
   }

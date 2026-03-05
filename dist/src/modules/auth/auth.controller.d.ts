@@ -1,4 +1,4 @@
-import { AuthService, TokenPair } from './auth.service';
+import { AuthService, TokenPair, LoginResult } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -10,6 +10,10 @@ export declare class AuthController {
         message: string;
     };
     register(dto: RegisterDto): Promise<import("./auth.service").RegisterResult>;
-    login(dto: LoginDto): Promise<TokenPair>;
+    login(dto: LoginDto): Promise<LoginResult>;
     refresh(dto: RefreshTokenDto): Promise<TokenPair>;
+    refreshGet(): {
+        statusCode: number;
+        message: string;
+    };
 }

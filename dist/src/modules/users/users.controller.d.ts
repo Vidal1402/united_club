@@ -3,7 +3,7 @@ import { Role } from '@prisma/client';
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
-    list(page?: string, limit?: string, role?: Role): Promise<{
+    list(page?: string, limit?: string, role?: Role, isActive?: string): Promise<{
         data: {
             id: string;
             email: string;
@@ -24,4 +24,20 @@ export declare class UsersController {
         createdAt: Date;
         updatedAt: Date;
     } | null>;
+    activate(id: string): Promise<{
+        id: string;
+        email: string;
+        role: import(".prisma/client").$Enums.Role;
+        isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    deactivate(id: string): Promise<{
+        id: string;
+        email: string;
+        role: import(".prisma/client").$Enums.Role;
+        isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
 }

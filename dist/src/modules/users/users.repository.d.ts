@@ -8,6 +8,7 @@ export declare class UsersRepository {
         email: string;
         passwordHash: string;
         role?: 'admin' | 'affiliate';
+        isActive?: boolean;
     }, profileData: {
         fullName: string;
         phone?: string;

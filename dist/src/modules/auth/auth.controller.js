@@ -38,6 +38,9 @@ let AuthController = class AuthController {
     async refresh(dto) {
         return this.authService.refresh(dto.refreshToken);
     }
+    refreshGet() {
+        return { statusCode: 405, message: 'Use POST /auth/refresh com body { "refreshToken": "..." }' };
+    }
 };
 exports.AuthController = AuthController;
 __decorate([
@@ -77,6 +80,15 @@ __decorate([
     __metadata("design:paramtypes", [refresh_token_dto_1.RefreshTokenDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "refresh", null);
+__decorate([
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Get)('refresh'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.METHOD_NOT_ALLOWED),
+    (0, swagger_1.ApiExcludeEndpoint)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "refreshGet", null);
 exports.AuthController = AuthController = __decorate([
     (0, swagger_1.ApiTags)('auth'),
     (0, common_1.Controller)('auth'),
