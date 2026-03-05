@@ -1,5 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength, ValidateIf } from 'class-validator';
+
+const OBJECT_ID_REGEX = /^[a-f0-9]{24}$/i;
 
 export class RegisterDto {
   @ApiProperty({ example: 'user@example.com' })
@@ -24,4 +26,11 @@ export class RegisterDto {
   @IsString()
   @MaxLength(20)
   phone?: string;
+
+  @ApiPropertyOptional({ description: 'ID do usuário que indicou (MongoDB ObjectId). Permite comissões multinível.' })
+  @IsOptional()
+  @ValidateIf((o) => o.referrerId != null && o.referrerId !== '')
+  @IsString()
+  @Matches(OBJECT_ID_REGEX, { message: 'referrerId deve ser um ObjectId válido (24 caracteres hex)' })
+  referrerId?: string;
 }

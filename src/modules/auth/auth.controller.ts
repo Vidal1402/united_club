@@ -23,13 +23,14 @@ export class AuthController {
 
   @Public()
   @Post('register')
-  @ApiOperation({ summary: 'Solicitar acesso (cadastro de afiliado)' })
+  @ApiOperation({ summary: 'Solicitar acesso (cadastro de afiliado). Opcional: referrerId para rede multinível.' })
   async register(@Body() dto: RegisterDto) {
     return this.authService.register(
       dto.email,
       dto.password,
       dto.fullName,
       dto.phone,
+      dto.referrerId,
     );
   }
 

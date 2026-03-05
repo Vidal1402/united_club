@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Prisma } from '@prisma/client';
 import { UsersService } from '../users/users.service';
+import { NetworkService } from '../network/network.service';
 import type { JwtPayload } from '../../common/types/auth.types';
 
 const SALT_ROUNDS = 10;
@@ -28,6 +29,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private config: ConfigService,
+    private networkService: NetworkService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<{ id: string; email: string; role: string } | null> {
@@ -76,6 +78,7 @@ export class AuthService {
     password: string,
     fullName: string,
     phone?: string,
+    referrerId?: string,
   ): Promise<RegisterResult> {
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
     let user: Awaited<ReturnType<UsersService['createForRegister']>>;
@@ -91,6 +94,13 @@ export class AuthService {
         throw new ConflictException('E-mail já cadastrado');
       }
       throw err;
+    }
+    if (referrerId) {
+      try {
+        await this.networkService.addAffiliateToNetwork(user.id, referrerId);
+      } catch {
+        // Referrer inválido ou já vinculado: cadastro segue sem rede multinível
+      }
     }
     const profile = user.profile;
     const tokens = this.generateTokens({

@@ -2066,7 +2066,13 @@ Request (opcional):
 
 ---
 
-#### Rede (afiliados)
+#### Rede (afiliados) e comissões multinível
+
+Toda a lógica multinível usa **API real** (backend): ao aprovar uma proposta, o backend busca os uplines do afiliado vendedor em `AffiliateNetwork`, cria comissões nível 1 (5%), 2 (3%) e 3 (1%) e a comissão do vendedor (5%). Para isso funcionar, a **rede (quem indicou quem) precisa estar preenchida**:
+
+- **No registro:** envie `referrerId` (ID do usuário que indicou) no body do `POST /auth/register`. O backend cria os vínculos de níveis 1, 2 e 3 na tabela `AffiliateNetwork`. Ex.: `{ "email": "...", "password": "...", "fullName": "...", "referrerId": "69a8f5be93a937d5bc4d21a1" }`.
+- Usuários já cadastrados **sem** `referrerId` não têm uplines; ao aprovar proposta só o vendedor recebe comissão (5%). Para multinível, novos afiliados devem se cadastrar com o `referrerId` do indicador (ou seria necessário um endpoint admin para vincular depois).
+
 | Método | Rota | Auth | Descrição |
 |--------|------|------|-----------|
 | GET | `/network/me` | Sim | Minha rede (resumo) |
@@ -2078,9 +2084,10 @@ Request (opcional):
 **GET /network/me/stats** – Response exemplo:
 ```json
 {
-  "totalUplines": 2,
   "totalDownlines": 5,
-  "directDownlines": 3
+  "level1": 3,
+  "level2": 1,
+  "level3": 1
 }
 ```
 
