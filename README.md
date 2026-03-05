@@ -166,6 +166,9 @@ O front deve guardar os tokens (ex.: em memória + refresh no `localStorage` ou 
   1. Renovar o token usando `POST /auth/refresh` com o `refreshToken` antes de expirar, ou
   2. Fazer logout e login de novo para obter novos tokens.
 
+- **Após aprovar proposta, o dashboard não atualiza (vendas, jornada, comissões)**  
+  O backend já atualiza tudo ao aprovar (total de vendas em `AffiliateProgress`, comissões, nível da jornada). Em MongoDB Atlas M0 a aprovação roda em sequência (sem transação), então os dados são gravados. O frontend precisa **refazer a busca** dos dados após aprovar: por exemplo, chamar de novo `GET /dashboard/me` (e, se aplicável, `GET /journey/me`) após o sucesso do `POST /proposals/:id/approve`, ou invalidar/refetch da lista de propostas e do dashboard.
+
 ### Fluxo principal (exemplo)
 GET https://united-club.onrender.com/dashboard/me 401 (Unauthorized)
 (anonymous) @ index-UuRRzwGd.js:450
@@ -1751,7 +1754,7 @@ n @ index-UuRRzwGd.js:421Understand this error
 
 1. **Criar proposta** – `POST /proposals` (body: profileId, productId, value, opcional idempotencyKey).
 2. **Aprovar proposta (admin)** – `POST /proposals/:id/approve`:
-   - Atualiza status da proposta.
+   - Atualiza status da proposta, cria comissões (multinível), incrementa total de vendas do afiliado e atualiza o nível da jornada. Compatível com MongoDB M0 (sem transação). O front deve refazer a busca do dashboard/jornada após aprovar para exibir os novos valores.
    - Cria comissões multinível (5% nível 1, 3% nível 2, 1% nível 3) na tabela `commissions`.
    - Atualiza `affiliate_progress` (total de vendas e nível da jornada).
    - Dispara notificação “proposta aprovada”.

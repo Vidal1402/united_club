@@ -68,73 +68,75 @@ export class ProposalsService {
     });
   }
 
+  /**
+   * Aprova proposta: atualiza status, cria comissões, incrementa total de vendas e atualiza jornada.
+   * Execução em sequência (sem $transaction) para compatibilidade com MongoDB Atlas M0 (sem replica set).
+   */
   async approve(proposalId: string, adminUserId: string) {
-    return this.prisma.$transaction(async (tx) => {
-      const proposal = await tx.proposal.findUnique({
-        where: { id: proposalId },
-        include: { profile: { include: { user: true } }, product: true },
+    const proposal = await this.prisma.proposal.findUnique({
+      where: { id: proposalId },
+      include: { profile: { include: { user: true } }, product: true },
+    });
+    if (!proposal) throw new NotFoundException('Proposta nao encontrada');
+    if (proposal.status !== 'pending') {
+      throw new ConflictException('Proposta ja foi processada (idempotencia)');
+    }
+    const value = Number(proposal.value);
+    const profileUserId = proposal.profile.userId;
+
+    await this.prisma.proposal.update({
+      where: { id: proposalId },
+      data: { status: 'approved', approvedAt: new Date(), approvedById: adminUserId },
+    });
+
+    const uplines = await this.networkService.getUplines(profileUserId, 3);
+    const level1 = uplines.find((u) => u.level === 1);
+    const level2 = uplines.find((u) => u.level === 2);
+    const level3 = uplines.find((u) => u.level === 3);
+    const toCreate: Array<{ userId: string; level: number; percentage: number; amount: number }> = [];
+    if (level1) toCreate.push({ userId: level1.referrerId, level: 1, percentage: 5, amount: value * 0.05 });
+    if (level2) toCreate.push({ userId: level2.referrerId, level: 2, percentage: 3, amount: value * 0.03 });
+    if (level3) toCreate.push({ userId: level3.referrerId, level: 3, percentage: 1, amount: value * 0.01 });
+    toCreate.push({ userId: profileUserId, level: 1, percentage: 5, amount: value * 0.05 });
+
+    for (const c of toCreate) {
+      await this.prisma.commission.create({
+        data: {
+          proposalId,
+          userId: c.userId,
+          level: c.level,
+          percentage: c.percentage,
+          amount: c.amount,
+          status: 'pending',
+        },
       });
-      if (!proposal) throw new NotFoundException('Proposta nao encontrada');
-      if (proposal.status !== 'pending') {
-        throw new ConflictException('Proposta ja foi processada (idempotencia)');
-      }
-      const value = Number(proposal.value);
-      const profileUserId = proposal.profile.userId;
+    }
 
-      await tx.proposal.update({
-        where: { id: proposalId },
-        data: { status: 'approved', approvedAt: new Date(), approvedById: adminUserId },
-      });
-
-      const uplines = await this.networkService.getUplines(profileUserId, 3);
-      const level1 = uplines.find((u) => u.level === 1);
-      const level2 = uplines.find((u) => u.level === 2);
-      const level3 = uplines.find((u) => u.level === 3);
-      const toCreate: Array<{ userId: string; level: number; percentage: number; amount: number }> = [];
-      if (level1) toCreate.push({ userId: level1.referrerId, level: 1, percentage: 5, amount: value * 0.05 });
-      if (level2) toCreate.push({ userId: level2.referrerId, level: 2, percentage: 3, amount: value * 0.03 });
-      if (level3) toCreate.push({ userId: level3.referrerId, level: 3, percentage: 1, amount: value * 0.01 });
-      toCreate.push({ userId: profileUserId, level: 1, percentage: 5, amount: value * 0.05 });
-
-      for (const c of toCreate) {
-        await tx.commission.create({
-          data: {
-            proposalId,
-            userId: c.userId,
-            level: c.level,
-            percentage: c.percentage,
-            amount: c.amount,
-            status: 'pending',
-          },
-        });
-      }
-
-      const progress = await tx.affiliateProgress.upsert({
-        where: { userId: profileUserId },
-        create: { userId: profileUserId, totalSales: value },
-        update: { totalSales: { increment: value } },
-      });
-      const newTotal = progress.totalSales;
-      const levels = await tx.journeyLevel.findMany({ orderBy: { order: 'asc' } });
-      let currentLevelId = progress.currentLevelId;
-      let lastLevelUpAt = progress.lastLevelUpAt;
-      for (const level of levels) {
-        if (Number(level.minSales) <= newTotal) {
-          if (level.id !== currentLevelId) {
-            lastLevelUpAt = new Date();
-            currentLevelId = level.id;
-          }
+    const progress = await this.prisma.affiliateProgress.upsert({
+      where: { userId: profileUserId },
+      create: { userId: profileUserId, totalSales: value },
+      update: { totalSales: { increment: value } },
+    });
+    const newTotal = progress.totalSales;
+    const levels = await this.prisma.journeyLevel.findMany({ orderBy: { order: 'asc' } });
+    let currentLevelId = progress.currentLevelId;
+    let lastLevelUpAt = progress.lastLevelUpAt;
+    for (const level of levels) {
+      if (Number(level.minSales) <= newTotal) {
+        if (level.id !== currentLevelId) {
+          lastLevelUpAt = new Date();
+          currentLevelId = level.id;
         }
       }
-      await tx.affiliateProgress.update({
-        where: { userId: profileUserId },
-        data: { currentLevelId, lastLevelUpAt },
-      });
-
-      await this.notificationsService.notifyProposalApproved(profileUserId, proposalId, value);
-      const updated = await this.repository.findById(proposalId);
-      return updated;
+    }
+    await this.prisma.affiliateProgress.update({
+      where: { userId: profileUserId },
+      data: { currentLevelId, lastLevelUpAt },
     });
+
+    await this.notificationsService.notifyProposalApproved(profileUserId, proposalId, value);
+    const updated = await this.repository.findById(proposalId);
+    return updated;
   }
 
   async reject(proposalId: string, adminUserId: string, reason?: string) {
