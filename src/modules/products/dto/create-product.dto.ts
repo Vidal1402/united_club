@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsBoolean, IsNumber, IsOptional, IsString, IsUrl, MaxLength, Min, ValidateIf } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString, MaxLength, Min } from 'class-validator';
 
 export class CreateProductDto {
   @ApiProperty({ description: 'Nome do produto' })
@@ -27,17 +27,13 @@ export class CreateProductDto {
   @IsBoolean()
   isActive?: boolean;
 
-  @ApiPropertyOptional({ description: 'URL da imagem (após upload no front/S3/Cloudinary)' })
+  @ApiPropertyOptional({ description: 'Imagem do produto (não obrigatório). URL ou data URL base64.' })
   @IsOptional()
-  @ValidateIf((o) => o.imageUrl != null && o.imageUrl !== '')
   @IsString()
-  @IsUrl({ require_tld: false })
   imageUrl?: string;
 
-  @ApiPropertyOptional({ description: 'URL da video-aula (após upload)' })
+  @ApiPropertyOptional({ description: 'Video-aula (não obrigatório). URL ou data URL base64.' })
   @IsOptional()
-  @ValidateIf((o) => o.videoUrl != null && o.videoUrl !== '')
   @IsString()
-  @IsUrl({ require_tld: false })
   videoUrl?: string;
 }
