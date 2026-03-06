@@ -100,6 +100,8 @@ model Product {
   description String?
   price       Float    // MongoDB: Float (Decimal não suportado)
   isActive    Boolean  @default(true) @map("is_active")
+  imageUrl    String?  @map("image_url")   // URL da imagem (upload no front/S3/Cloudinary)
+  videoUrl    String?  @map("video_url")   // URL da video-aula
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 

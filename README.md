@@ -1934,6 +1934,8 @@ Todos os campos são opcionais; envie apenas os que deseja atualizar.
 
 **POST /products** (admin)
 
+Campos do formulário: **name**, **slug**, **description**, **price**, **isActive**, **imageUrl**, **videoUrl**. Imagem e video-aula: o front faz upload (ex.: S3/Cloudinary), obtém a URL e envia aqui.
+
 Request:
 ```json
 {
@@ -1941,7 +1943,9 @@ Request:
   "slug": "curso-premium",
   "description": "Acesso vitalício ao curso.",
   "price": 997.9,
-  "isActive": true
+  "isActive": true,
+  "imageUrl": "https://cdn.exemplo.com/produtos/curso-premium.jpg",
+  "videoUrl": "https://cdn.exemplo.com/videos/aula-01.mp4"
 }
 ```
 
@@ -1949,7 +1953,9 @@ Request:
 ```json
 {
   "price": 797.9,
-  "isActive": false
+  "isActive": false,
+  "imageUrl": "https://...",
+  "videoUrl": "https://..."
 }
 ```
 
@@ -1962,6 +1968,8 @@ Request:
   "description": "Acesso vitalício ao curso.",
   "price": 997.9,
   "isActive": true,
+  "imageUrl": "https://cdn.exemplo.com/produtos/curso-premium.jpg",
+  "videoUrl": "https://cdn.exemplo.com/videos/aula-01.mp4",
   "createdAt": "2026-02-01T12:00:00.000Z",
   "updatedAt": "2026-02-01T12:00:00.000Z"
 }
@@ -2131,24 +2139,22 @@ Toda a lógica multinível usa **API real** (backend): ao aprovar uma proposta, 
 #### Dashboard
 | Método | Rota | Auth | Descrição |
 |--------|------|------|-----------|
-| GET | `/dashboard/me` | Sim | Resumo: vendas, saldo, jornada, rede, próximo pagamento |
+| GET | `/dashboard/me` | Sim | Resumo: vendas, vendas da rede, saldo, jornada, rede, próximo pagamento |
 
 **GET /dashboard/me** – Response exemplo:
 ```json
 {
   "totalSales": 25000,
   "totalCommissions": 1250.75,
-  "nextPayment": {
-    "id": "675pay...",
-    "amount": 500,
-    "type": "withdrawal",
-    "status": "pending",
-    "createdAt": "2026-02-01T12:00:00.000Z"
-  },
+  "networkSales": 15000,
+  "nextPayment": { ... },
   "journey": { ... },
-  "network": { ... }
+  "network": { "totalDownlines": 5, "level1": 3, "level2": 1, "level3": 1 }
 }
 ```
+- **totalSales:** suas próprias vendas aprovadas (propostas onde você é o vendedor).
+- **networkSales:** soma das vendas aprovadas dos seus downlines (rede). Para o afiliado pai ver “quanto minha equipe vendeu”.
+- **totalCommissions:** saldo de comissões pendentes (inclui o que você ganha das vendas dos filhos, 5% nível 1, etc.). O front deve exibir **networkSales** e **totalCommissions** para o pai ver o resultado das vendas do filho.
 
 ---
 

@@ -55,4 +55,16 @@ export class NetworkService {
       level3: level3.length,
     };
   }
+
+  /** Retorna os IDs de todos os afiliados da rede (níveis 1, 2 e 3) para cálculo de vendas da rede. */
+  async getDownlineUserIds(referrerId: string): Promise<string[]> {
+    const [d1, d2, d3] = await Promise.all([
+      this.repository.findDownlines(referrerId, 1),
+      this.repository.findDownlines(referrerId, 2),
+      this.repository.findDownlines(referrerId, 3),
+    ]);
+    const ids = new Set<string>();
+    for (const row of [...d1, ...d2, ...d3]) ids.add(row.affiliateId);
+    return Array.from(ids);
+  }
 }

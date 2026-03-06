@@ -16,6 +16,8 @@ export class ProductsService {
       description: dto.description,
       price: dto.price,
       isActive: dto.isActive ?? true,
+      imageUrl: dto.imageUrl,
+      videoUrl: dto.videoUrl,
     });
   }
 
@@ -39,6 +41,6 @@ export class ProductsService {
     await this.findById(id);
     const payload: Record<string, unknown> = { ...dto };
     if (dto.price != null) payload.price = dto.price;
-    return this.repository.update(id, payload as { name?: string; slug?: string; description?: string; price?: number; isActive?: boolean });
+    return this.repository.update(id, payload as Parameters<ProductsRepository['update']>[1]);
   }
 }
