@@ -93,6 +93,13 @@ export class PaymentsService {
     return this.repository.findManyByUserId(userId, st, skip, limit);
   }
 
+  /** Lista todos os pagamentos da plataforma (admin). */
+  async findAllPayments(status?: string, page = 1, limit = 20) {
+    const skip = (page - 1) * limit;
+    const st = status as 'pending' | 'completed' | undefined;
+    return this.repository.findMany(st, skip, limit);
+  }
+
   async findById(id: string) {
     const p = await this.repository.findById(id);
     if (!p) throw new NotFoundException('Pagamento nao encontrado');

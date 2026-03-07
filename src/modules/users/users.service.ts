@@ -107,6 +107,15 @@ export class UsersService {
         this.commissionsService.getPendingBalance(userId),
       ]);
 
+    const journey = dashboard.journey as {
+      progress?: { currentLevel?: { name: string } | null };
+      nextLevel?: { name: string } | null;
+      totalSales?: number;
+      levels?: unknown[];
+    } | undefined;
+    const network = dashboard.network as { totalDownlines?: number; level1?: number; level2?: number; level3?: number } | undefined;
+    const nextPayment = dashboard.nextPayment as { id: string; amount: number; type: string; status: string } | null | undefined;
+
     return {
       user: userSafe,
       profile: profile ?? null,
@@ -117,6 +126,17 @@ export class UsersService {
         journey: dashboard.journey,
         network: dashboard.network,
         nextPayment: dashboard.nextPayment,
+      },
+      /** Bloco para exibir "Jornada & Rede": Nível Atual, Próximo Nível, Downlines, Próximo Pagamento */
+      journeyAndNetwork: {
+        currentLevel: journey?.progress?.currentLevel?.name ?? null,
+        nextLevel: journey?.nextLevel?.name ?? null,
+        downlines: network?.totalDownlines ?? 0,
+        downlinesLevel1: network?.level1 ?? 0,
+        downlinesLevel2: network?.level2 ?? 0,
+        downlinesLevel3: network?.level3 ?? 0,
+        nextPaymentAmount: nextPayment?.amount ?? null,
+        nextPaymentId: nextPayment?.id ?? null,
       },
       proposalsSummary: {
         total: proposalsSummary.total,

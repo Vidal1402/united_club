@@ -42,6 +42,23 @@ export class PaymentsController {
     return { data: result.data, meta: { total: result.total } };
   }
 
+  @Get()
+  @UseGuards(RolesGuard)
+  @Roles(Role.admin)
+  @ApiOperation({ summary: 'Listar todos os pagamentos (admin)' })
+  async list(
+    @Query('status') status?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    const result = await this.paymentsService.findAllPayments(
+      status,
+      page ? parseInt(page, 10) : 1,
+      limit ? parseInt(limit, 10) : 20,
+    );
+    return { data: result.data, meta: { total: result.total } };
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Pagamento por ID' })
   async findOne(@Param('id') id: string, @CurrentUser() user: JwtPayload) {

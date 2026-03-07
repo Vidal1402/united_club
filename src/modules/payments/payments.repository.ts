@@ -31,7 +31,28 @@ export class PaymentsRepository {
         skip,
         take,
         orderBy: { createdAt: 'desc' },
-        include: { paymentCommissions: { include: { commission: true } } },
+        include: { user: true, paymentCommissions: { include: { commission: true } } },
+      }),
+      this.prisma.payment.count({ where }),
+    ]);
+    return { data, total };
+  }
+
+  /** Lista todos os pagamentos (admin). */
+  async findMany(
+    status?: PaymentStatus,
+    skip?: number,
+    take?: number,
+  ): Promise<{ data: Payment[]; total: number }> {
+    const where: Prisma.PaymentWhereInput = {};
+    if (status) where.status = status;
+    const [data, total] = await Promise.all([
+      this.prisma.payment.findMany({
+        where,
+        skip,
+        take,
+        orderBy: { createdAt: 'desc' },
+        include: { user: { include: { profile: true } }, paymentCommissions: { include: { commission: true } } },
       }),
       this.prisma.payment.count({ where }),
     ]);

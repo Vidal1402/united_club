@@ -1862,6 +1862,13 @@ Response 201: mesmo formato de `/auth/login` (novo `accessToken` e `refreshToken
 - `user`: dados do usuário (sem senha)
 - `profile`: perfil ou null
 - `dashboard`: totalSales, totalCommissions, networkSales, journey, network, nextPayment
+- **`journeyAndNetwork`** – para exibir a seção "Jornada & Rede":
+  - `currentLevel`: nome do nível atual ou `null` (exibir "—" se null)
+  - `nextLevel`: nome do próximo nível ou `null` (ex.: "Mestre")
+  - `downlines`: total de downlines
+  - `downlinesLevel1`, `downlinesLevel2`, `downlinesLevel3`: por nível
+  - `nextPaymentAmount`: valor do próximo pagamento ou `null` (exibir "—" se null)
+  - `nextPaymentId`: id do pagamento pendente ou null
 - `proposalsSummary`: total, pending, approved, rejected, recent (últimas 10 propostas)
 - `commissions`: balance, recent (últimas 15 comissões), totalCommissions
 
@@ -2055,7 +2062,8 @@ Ou o valor direto num número, conforme implementação.
 |--------|------|------|-----------|
 | POST | `/payments/request` | Sim | Solicitar saque ou antecipação |
 | GET | `/payments/me` | Sim | Meus pagamentos (query: `status`, `page`, `limit`) |
-| GET | `/payments/:id` | Sim | Pagamento por ID (dono) |
+| GET | `/payments` | Admin | **Todos os pagamentos** da plataforma (query: `status`, `page`, `limit`) |
+| GET | `/payments/:id` | Sim | Pagamento por ID (dono ou admin) |
 | POST | `/payments/:id/mark-paid` | Admin | Marcar como pago |
 
 **POST /payments/request**
