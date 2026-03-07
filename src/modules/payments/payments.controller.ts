@@ -90,4 +90,13 @@ export class PaymentsController {
   ) {
     return this.paymentsService.markAsPaid(id, user.sub, body.externalId);
   }
+
+  @Post(':id/cancel')
+  @UseGuards(RolesGuard)
+  @Roles(Role.admin)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Cancelar/rejeitar solicitação de saque (admin). Só para status pending.' })
+  async cancel(@Param('id') id: string) {
+    return this.paymentsService.cancelPayment(id);
+  }
 }

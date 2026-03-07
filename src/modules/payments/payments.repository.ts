@@ -119,4 +119,25 @@ export class PaymentsRepository {
     ]);
     return this.findById(paymentId);
   }
+
+  /** Cancela solicitação de saque (pendente): devolve comissões para status pending. */
+  async markAsCancelled(paymentId: string): Promise<Payment | null> {
+    const payment = await this.prisma.payment.findUnique({
+      where: { id: paymentId },
+      include: { paymentCommissions: true },
+    });
+    if (!payment || payment.status !== 'pending') return null;
+    const commissionIds = payment.paymentCommissions.map((pc) => pc.commissionId);
+    await this.prisma.$transaction([
+      this.prisma.payment.update({
+        where: { id: paymentId },
+        data: { status: 'cancelled' },
+      }),
+      this.prisma.commission.updateMany({
+        where: { id: { in: commissionIds } },
+        data: { status: 'pending', paidAt: null },
+      }),
+    ]);
+    return this.findById(paymentId);
+  }
 }

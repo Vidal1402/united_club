@@ -2066,6 +2066,9 @@ Ou o valor direto num número, conforme implementação.
 | GET | `/payments/pending-balances` | Admin | **Saldos pendentes por afiliado** (quem tem comissão aprovada ainda não sacada) |
 | GET | `/payments/:id` | Sim | Pagamento por ID (dono ou admin) |
 | POST | `/payments/:id/mark-paid` | Admin | Marcar como pago |
+| POST | `/payments/:id/cancel` | Admin | Cancelar/rejeitar solicitação de saque (só status `pending`; comissões voltam a ficar disponíveis) |
+
+**POST /payments/:id/cancel** (admin) – Sem body. Retorna o pagamento com `status: "cancelled"`.
 
 **Fluxo:** Proposta aprovada gera **comissões** (saldo do afiliado). O registro de **pagamento** (solicitação de saque) só é criado quando o afiliado chama **POST /payments/request**. Por isso: (1) **GET /payments** lista só as solicitações de saque já feitas; (2) **GET /payments/pending-balances** lista afiliados que têm saldo (comissões aprovadas) mas ainda não solicitaram saque — o admin pode usar para acompanhar quem tem valor disponível.
 

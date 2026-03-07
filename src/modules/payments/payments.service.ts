@@ -89,6 +89,18 @@ export class PaymentsService {
     return updated;
   }
 
+  /** Cancela/rejeita solicitação de saque (admin). Só para status pending; comissões voltam a ficar disponíveis. */
+  async cancelPayment(paymentId: string) {
+    const payment = await this.repository.findById(paymentId);
+    if (!payment) throw new NotFoundException('Pagamento nao encontrado');
+    if (payment.status !== 'pending') {
+      throw new BadRequestException('So e possivel cancelar solicitacao pendente');
+    }
+    const updated = await this.repository.markAsCancelled(paymentId);
+    if (!updated) throw new BadRequestException('Pagamento nao pôde ser cancelado');
+    return updated;
+  }
+
   async findMyPayments(userId: string, status?: string, page = 1, limit = 20) {
     const skip = (page - 1) * limit;
     const st = status as 'pending' | 'completed' | undefined;
