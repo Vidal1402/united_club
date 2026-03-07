@@ -27,6 +27,11 @@ export class ProfilesService {
     return profile;
   }
 
+  /** Retorna o perfil ou null (útil para admin ao montar detalhes do usuário). */
+  async findOptionalByUserId(userId: string) {
+    return this.repository.findByUserId(userId);
+  }
+
   async update(userId: string, dto: UpdateProfileDto, currentUserId: string) {
     if (userId !== currentUserId) {
       throw new ForbiddenException('Acesso negado a este perfil');

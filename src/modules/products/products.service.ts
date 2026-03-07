@@ -28,10 +28,12 @@ export class ProductsService {
   }
 
   async findMany(page: number = 1, limit: number = 20, activeOnly?: boolean) {
-    const skip = (page - 1) * limit;
+    const safePage = Number.isFinite(page) && page >= 1 ? page : 1;
+    const safeLimit = Number.isFinite(limit) && limit >= 1 && limit <= 100 ? limit : 20;
+    const skip = (safePage - 1) * safeLimit;
     const where = activeOnly ? { isActive: true } : {};
     const [data, total] = await Promise.all([
-      this.repository.findMany({ skip, take: limit, where }),
+      this.repository.findMany({ skip, take: safeLimit, where }),
       this.repository.count(where),
     ]);
     return { data, total };

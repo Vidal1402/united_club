@@ -35,6 +35,15 @@ export class UsersController {
     return { data, meta: { total: result.total } };
   }
 
+  @Get('details/:id')
+  @UseGuards(RolesGuard)
+  @Roles(Role.admin)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Detalhes do usuário (admin): vendas, comissões, propostas, rede, jornada' })
+  async getDetails(@Param('id') id: string) {
+    return this.usersService.getUserDetails(id);
+  }
+
   @Get(':id')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Buscar usuário por ID' })

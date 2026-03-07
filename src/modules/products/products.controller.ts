@@ -22,11 +22,11 @@ export class ProductsController {
     @Query('limit') limit?: string,
     @Query('activeOnly') activeOnly?: string,
   ) {
-    const result = await this.productsService.findMany(
-      page ? parseInt(page, 10) : 1,
-      limit ? parseInt(limit, 10) : 20,
-      activeOnly === 'true',
-    );
+    const pageNum = Number.parseInt(String(page), 10);
+    const limitNum = Number.parseInt(String(limit), 10);
+    const safePage = Number.isFinite(pageNum) && pageNum >= 1 ? pageNum : 1;
+    const safeLimit = Number.isFinite(limitNum) && limitNum >= 1 && limitNum <= 100 ? limitNum : 20;
+    const result = await this.productsService.findMany(safePage, safeLimit, activeOnly === 'true');
     return { data: result.data, meta: { total: result.total } };
   }
 

@@ -182,6 +182,16 @@ export class ProposalsService {
     return { data, total };
   }
 
+  /** Contagem de propostas por status para um perfil (admin / detalhes do usuário). */
+  async getCountByStatusForProfile(profileId: string): Promise<{ pending: number; approved: number; rejected: number }> {
+    const [pending, approved, rejected] = await Promise.all([
+      this.repository.count({ where: { profileId, status: 'pending' } }),
+      this.repository.count({ where: { profileId, status: 'approved' } }),
+      this.repository.count({ where: { profileId, status: 'rejected' } }),
+    ]);
+    return { pending, approved, rejected };
+  }
+
   async getProfileUserIdByProposalId(proposalId: string): Promise<string | null> {
     const p = await this.prisma.proposal.findUnique({
       where: { id: proposalId },

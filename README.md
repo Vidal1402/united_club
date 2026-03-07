@@ -1854,8 +1854,16 @@ Response 201: mesmo formato de `/auth/login` (novo `accessToken` e `refreshToken
 #### Usuários (admin)
 | Método | Rota | Auth | Descrição |
 |--------|------|------|-----------|
-| GET | `/users` | Admin | Listar usuários (query: `page`, `limit`, `role`) |
+| GET | `/users` | Admin | Listar usuários (query: `page`, `limit`, `role`, `isActive`) |
+| GET | `/users/details/:id` | Admin | **Detalhes do usuário:** vendas, comissões, propostas (contagens + histórico), rede, jornada, pendências |
 | GET | `/users/:id` | Sim | Buscar usuário por ID |
+
+**GET /users/details/:id** (admin) – Retorna tudo para a área admin visualizar um usuário:
+- `user`: dados do usuário (sem senha)
+- `profile`: perfil ou null
+- `dashboard`: totalSales, totalCommissions, networkSales, journey, network, nextPayment
+- `proposalsSummary`: total, pending, approved, rejected, recent (últimas 10 propostas)
+- `commissions`: balance, recent (últimas 15 comissões), totalCommissions
 
 **GET /users?page=1&limit=20&role=affiliate**
 
