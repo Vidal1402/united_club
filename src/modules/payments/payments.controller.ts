@@ -59,6 +59,15 @@ export class PaymentsController {
     return { data: result.data, meta: { total: result.total } };
   }
 
+  @Get('pending-balances')
+  @UseGuards(RolesGuard)
+  @Roles(Role.admin)
+  @ApiOperation({ summary: 'Saldos pendentes por afiliado (admin): quem tem comissão ainda não sacada' })
+  async pendingBalances() {
+    const data = await this.paymentsService.getPendingBalancesForAdmin();
+    return { data };
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Pagamento por ID' })
   async findOne(@Param('id') id: string, @CurrentUser() user: JwtPayload) {

@@ -4,6 +4,7 @@ import {
   ForbiddenException,
   BadRequestException,
 } from '@nestjs/common';
+import { PrismaService } from '../../prisma/prisma.service';
 import { PaymentsRepository } from './payments.repository';
 import { CommissionsService } from '../commissions/commissions.service';
 import { NotificationsService } from '../notifications/notifications.service';
@@ -12,6 +13,7 @@ import type { Commission } from '@prisma/client';
 @Injectable()
 export class PaymentsService {
   constructor(
+    private prisma: PrismaService,
     private repository: PaymentsRepository,
     private commissionsService: CommissionsService,
     private notificationsService: NotificationsService,
@@ -98,6 +100,24 @@ export class PaymentsService {
     const skip = (page - 1) * limit;
     const st = status as 'pending' | 'completed' | undefined;
     return this.repository.findMany(st, skip, limit);
+  }
+
+  /** Afiliados com saldo pendente (comissões aprovadas ainda não sacadas). Para o admin ver quem tem valor disponível. */
+  async getPendingBalancesForAdmin(): Promise<{ userId: string; email: string; fullName: string | null; pendingBalance: number }[]> {
+    const list = await this.commissionsService.getPendingBalanceByUser();
+    if (list.length === 0) return [];
+    const userIds = list.map((x) => x.userId);
+    const users = await this.prisma.user.findMany({
+      where: { id: { in: userIds } },
+      select: { id: true, email: true, profile: { select: { fullName: true } } },
+    });
+    const balanceByUser = new Map(list.map((x) => [x.userId, x.balance]));
+    return users.map((u) => ({
+      userId: u.id,
+      email: u.email,
+      fullName: u.profile?.fullName ?? null,
+      pendingBalance: balanceByUser.get(u.id) ?? 0,
+    }));
   }
 
   async findById(id: string) {

@@ -68,6 +68,11 @@ export class CommissionsService {
     return this.repository.sumPendingByUserId(userId);
   }
 
+  /** Lista saldo pendente por usuário (admin: quem tem comissão disponível para saque). */
+  async getPendingBalanceByUser() {
+    return this.repository.getPendingBalanceByUser();
+  }
+
   async getPendingCommissions(userId: string) {
     return this.repository.findPendingByUserId(userId);
   }

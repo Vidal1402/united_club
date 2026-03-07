@@ -60,4 +60,18 @@ export class CommissionsRepository {
       include: { proposal: true },
     });
   }
+
+  /** Saldo pendente por usuário (para admin ver quem tem comissão disponível para saque). */
+  async getPendingBalanceByUser(): Promise<{ userId: string; balance: number }[]> {
+    const rows = await this.prisma.commission.findMany({
+      where: { status: 'pending' },
+      select: { userId: true, amount: true },
+    });
+    const byUser = new Map<string, number>();
+    for (const r of rows) {
+      const cur = byUser.get(r.userId) ?? 0;
+      byUser.set(r.userId, cur + Number(r.amount));
+    }
+    return Array.from(byUser.entries()).map(([userId, balance]) => ({ userId, balance })).filter((g) => g.balance > 0);
+  }
 }

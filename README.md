@@ -2062,9 +2062,12 @@ Ou o valor direto num número, conforme implementação.
 |--------|------|------|-----------|
 | POST | `/payments/request` | Sim | Solicitar saque ou antecipação |
 | GET | `/payments/me` | Sim | Meus pagamentos (query: `status`, `page`, `limit`) |
-| GET | `/payments` | Admin | **Todos os pagamentos** da plataforma (query: `status`, `page`, `limit`) |
+| GET | `/payments` | Admin | **Todos os pagamentos** (solicitações de saque) — query: `status`, `page`, `limit` |
+| GET | `/payments/pending-balances` | Admin | **Saldos pendentes por afiliado** (quem tem comissão aprovada ainda não sacada) |
 | GET | `/payments/:id` | Sim | Pagamento por ID (dono ou admin) |
 | POST | `/payments/:id/mark-paid` | Admin | Marcar como pago |
+
+**Fluxo:** Proposta aprovada gera **comissões** (saldo do afiliado). O registro de **pagamento** (solicitação de saque) só é criado quando o afiliado chama **POST /payments/request**. Por isso: (1) **GET /payments** lista só as solicitações de saque já feitas; (2) **GET /payments/pending-balances** lista afiliados que têm saldo (comissões aprovadas) mas ainda não solicitaram saque — o admin pode usar para acompanhar quem tem valor disponível.
 
 **POST /payments/request**
 
