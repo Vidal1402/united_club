@@ -185,9 +185,9 @@ export class ProposalsService {
   /** Contagem de propostas por status para um perfil (admin / detalhes do usuário). */
   async getCountByStatusForProfile(profileId: string): Promise<{ pending: number; approved: number; rejected: number }> {
     const [pending, approved, rejected] = await Promise.all([
-      this.repository.count({ where: { profileId, status: 'pending' } }),
-      this.repository.count({ where: { profileId, status: 'approved' } }),
-      this.repository.count({ where: { profileId, status: 'rejected' } }),
+      this.repository.count({ profileId, status: 'pending' }),
+      this.repository.count({ profileId, status: 'approved' }),
+      this.repository.count({ profileId, status: 'rejected' }),
     ]);
     return { pending, approved, rejected };
   }
