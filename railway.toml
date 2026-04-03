@@ -1,0 +1,9 @@
+# Config as code sobrescreve o painel. Seed não roda no build (DATABASE_URL não existe na fase de build).
+# Seed único: Railway → serviço → Shell (ou preDeployCommand com DATABASE_URL disponível).
+# https://docs.railway.com/guides/config-as-code
+[build]
+builder = "RAILPACK"
+buildCommand = "npm run prisma:generate && npm run build"
+
+[deploy]
+startCommand = "npm run start:prod"
