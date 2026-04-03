@@ -15,7 +15,7 @@ node_modules/
 .env.production
 .env.development
 .env.test
-.env.staging
+
 # Build
 dist/
 build/
