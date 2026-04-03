@@ -1,6 +1,21 @@
 # Dependencies
 node_modules/
 
+.env
+.env.local
+.env.*.local
+.env.example
+.env.production
+.env.development
+.env.test
+.env.staging
+.env.local
+.env.*.local
+.env.example
+.env.production
+.env.development
+.env.test
+.env.staging
 # Build
 dist/
 build/
